@@ -22,11 +22,9 @@ export default function GlobalNavigationBar() {
 
     return (
         <header className="w-full border-b border-black/10">
-            <div className="bg-[#111111] h-16 flex items-center justify-center px-4 relative">
+            <div className="bg-white h-16 flex items-center justify-center px-4 relative">
                 <Link href="/">
-                    <h1 className="text-3xl md:text-4xl">
-                        보증 365
-                    </h1>
+                    <Image src="/image/logo.png" alt="로고" height={50} width={140} />
                 </Link>
 
                 {/* 모바일 햄버거 */}
