@@ -59,7 +59,7 @@ export default function GlobalNavigationBar() {
                                                 : "text-white hover:text-yellow-500"
                                             }
                                 `}
-                                aria-current={active ? "page" : undefined}
+                                aria-current={ active ? "page" : undefined }
                             >
                                 {item.label}
                             </Link>
