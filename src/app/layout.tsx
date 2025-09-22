@@ -31,13 +31,13 @@ export default function RootLayout({
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
             <GlobalNavigationBar />
-            <main className="mx-auto max-w-6xl  bg-[#222222]">
+            <main className="mx-auto max-w-6xl  bg-[#191919]">
                 <div className="grid md:grid-cols-4">
                     {/* 배너: 첫 번째 행 전체 폭 */}
-                    <div className="relative h-40 md:h-56 md:col-span-4 bg-gray-700">
+                    <div className="relative h-40 md:h-56 md:col-span-4 bg-gray-800">
                         <Image
                             src="/image/banner.png"
-                            alt="배너"
+                            alt="배너가 들어갈 위치"
                             fill
                             className="object-cover rounded-lg"
                         />

@@ -1,6 +1,6 @@
 export default function LeftNavigationBar() {
     return (
-        <div className="bg-gray-700">
+        <div className="bg-[#212121]">
             <ul className="space-y-5">
                 <li>
                     lnb1
