@@ -12,8 +12,8 @@ const NAV = [
     { label: "블랙리스트", href: "/blacklist" },
     { label: "먹튀신고", href: "/report" },
     { label: "이벤트", href: "/events" },
-    { label: "이용후기", href: "/reviews" },
-    { label: "공지사항", href: "/notices" },
+    { label: "이용후기", href: "/review" },
+    { label: "공지사항", href: "/notice" },
 ];
 
 export default function GlobalNavigationBar() {
