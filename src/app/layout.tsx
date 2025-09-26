@@ -4,6 +4,7 @@ import "./globals.css";
 import GlobalNavigationBar from "@/component/gnb";
 import LeftNavigationBar from "@/component/lnb";
 import Image from "next/image";
+import {Toaster} from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,6 +55,8 @@ export default function RootLayout({
                     </section>
                 </div>
             </main>
+
+            <Toaster position="top-center" reverseOrder={false} />
         </body>
     </html>
   );

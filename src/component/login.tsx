@@ -37,11 +37,10 @@ export default function Login({ className, onSuccess }: LoginProps) {
         <form onSubmit={onSubmit} className={className}>
             <div className="space-y-3">
                 <div className="flex flex-col gap-1">
-                    <label className="text-sm font-medium">이메일</label>
                     <input
                         type="email"
                         required
-                        placeholder="you@example.com"
+                        placeholder="아이디"
                         value={email}
                         onChange={(e) => setEmail(e.target.value.trim())}
                         className="w-full rounded border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-black"
@@ -49,11 +48,10 @@ export default function Login({ className, onSuccess }: LoginProps) {
                 </div>
 
                 <div className="flex flex-col gap-1">
-                    <label className="text-sm font-medium">비밀번호</label>
                     <input
                         type="password"
                         required
-                        placeholder=""
+                        placeholder="비밀번호"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className="w-full rounded border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-black"

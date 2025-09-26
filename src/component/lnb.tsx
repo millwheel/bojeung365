@@ -1,9 +1,11 @@
+import Login from "@/component/login";
+
 export default function LeftNavigationBar() {
     return (
         <div className="bg-[#212121]">
             <ul className="space-y-5">
                 <li>
-                    lnb1
+                    <Login />
                 </li>
                 <li>
                     lnb2
