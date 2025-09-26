@@ -7,9 +7,6 @@ export default function LeftNavigationBar() {
                 <li>
                     <Login />
                 </li>
-                <li>
-                    lnb2
-                </li>
             </ul>
         </div>
     );

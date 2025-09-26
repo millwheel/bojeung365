@@ -6,7 +6,7 @@ import { supabaseBrowser } from '@/supabase/client';
 
 type LoginProps = {
     className?: string;
-    onSuccess?: (userId: string) => void; // 성공 시 후처리(선택)
+    onSuccess?: (userId: string) => void;
 };
 
 export default function Login({ className, onSuccess }: LoginProps) {
@@ -28,44 +28,43 @@ export default function Login({ className, onSuccess }: LoginProps) {
             return;
         }
 
-        // 성공 토스트 + 콜백
         toast.success('로그인 성공!');
         onSuccess?.(data.user?.id ?? '');
     };
 
     return (
-        <form onSubmit={onSubmit} className={className}>
-            <div className="space-y-3">
-                <div className="flex flex-col gap-1">
-                    <input
-                        type="email"
-                        required
-                        placeholder="아이디"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value.trim())}
-                        className="w-full rounded border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-black"
-                    />
-                </div>
+        <div className="p-2">
+            <form onSubmit={onSubmit} className={`${className ?? ''}`}>
+                <div className="flex">
+                    <div className="flex flex-col flex-1 text-black text-xs">
+                        <input
+                            type="email"
+                            required
+                            placeholder="이메일"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value.trim())}
+                            className="w-full border border-gray-300 bg-white px-3 py-2 outline-none"
+                        />
+                        <input
+                            type="password"
+                            required
+                            placeholder="비밀번호"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="w-full border border-gray-300 bg-white px-3 py-2 outline-none"
+                        />
+                    </div>
 
-                <div className="flex flex-col gap-1">
-                    <input
-                        type="password"
-                        required
-                        placeholder="비밀번호"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="w-full rounded border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-black"
-                    />
+                    <button
+                        type="submit"
+                        disabled={pending}
+                        className="self-stretch bg-red-600 px-4 text-white font-medium hover:bg-red-500 cursor-pointer"
+                    >
+                        {pending ? '로그인 중…' : '로그인'}
+                    </button>
                 </div>
+            </form>
+        </div>
 
-                <button
-                    type="submit"
-                    disabled={pending}
-                    className="w-full rounded bg-black px-4 py-2 text-white disabled:opacity-60"
-                >
-                    {pending ? '로그인 중…' : '로그인'}
-                </button>
-            </div>
-        </form>
     );
 }
