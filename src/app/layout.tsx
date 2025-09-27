@@ -32,7 +32,7 @@ export default function RootLayout({
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
             <GlobalNavigationBar />
-            <main className="mx-auto max-w-6xl  bg-[#191919]">
+            <main className="mx-auto max-w-6xl">
                 <div>
                     {/* 배너 */}
                     <div className="relative h-40 md:h-56 md:col-span-4 isolate overflow-hidden">

@@ -53,7 +53,7 @@ export default function RegisterPage() {
                 uid: userId,
                 name,
                 nickname,
-                role: UserRole.Member, // NOTE: 자동 MEMBER 지정
+                role: UserRole.Member,
             });
 
         setPending(false);
@@ -68,66 +68,89 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="flex justify-center items-center bg-[#191919]">
-            <form
-                onSubmit={onSubmit}
-                className="bg-white p-6 rounded shadow-md w-full max-w-sm space-y-3"
-            >
-                <h1 className="text-xl font-bold text-center">회원가입</h1>
-
-                <input
-                    type="email"
-                    placeholder="이메일"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value.trim())}
-                    required
-                    className="w-full border border-gray-300 px-3 py-2 text-sm outline-none"
-                />
-
-                <input
-                    type="password"
-                    placeholder="비밀번호"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    className="w-full border border-gray-300 px-3 py-2 text-sm outline-none"
-                />
-
-                <input
-                    type="password"
-                    placeholder="비밀번호 확인"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
-                    className="w-full border border-gray-300 px-3 py-2 text-sm outline-none"
-                />
-
-                <input
-                    type="text"
-                    placeholder="이름"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                    className="w-full border border-gray-300 px-3 py-2 text-sm outline-none"
-                />
-
-                <input
-                    type="text"
-                    placeholder="닉네임"
-                    value={nickname}
-                    onChange={(e) => setNickname(e.target.value)}
-                    required
-                    className="w-full border border-gray-300 px-3 py-2 text-sm outline-none"
-                />
-
-                <button
-                    type="submit"
-                    disabled={pending}
-                    className="w-full bg-red-600 text-white py-2 font-medium hover:bg-red-500 disabled:opacity-50"
+        <div className="flex justify-center items-center bg-[#212121]">
+            <div className="my-5 w-full flex flex-col items-center">
+                <form
+                    onSubmit={onSubmit}
+                    className="bg-white text-black p-8 rounded shadow-md w-full max-w-xl space-y-6 text-base"
                 >
-                    {pending ? "가입 중..." : "회원가입"}
-                </button>
-            </form>
+                    <h1 className="text-2xl font-bold text-center mb-6">회원가입</h1>
+
+                    <div className="flex items-center gap-4">
+                        <label className="w-28">이메일</label>
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value.trim())}
+                            required
+                            className="flex-1 border border-gray-300 px-4 py-2 outline-none"
+                        />
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                        <label className="w-28">비밀번호</label>
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            className="flex-1 border border-gray-300 px-4 py-2 outline-none"
+                        />
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                        <label className="w-28">비밀번호 확인</label>
+                        <input
+                            type="password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                            className="flex-1 border border-gray-300 px-4 py-2 outline-none"
+                        />
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                        <label className="w-28">이름</label>
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                            className="flex-1 border border-gray-300 px-4 py-2 outline-none"
+                        />
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                        <label className="w-28">닉네임</label>
+                        <input
+                            type="text"
+                            value={nickname}
+                            onChange={(e) => setNickname(e.target.value)}
+                            required
+                            className="flex-1 border border-gray-300 px-4 py-2 outline-none"
+                        />
+                    </div>
+
+                    <div className="flex justify-center gap-6 pt-6">
+                        <button
+                            type="submit"
+                            disabled={pending}
+                            className="bg-red-600 text-white px-6 py-2 rounded font-medium hover:bg-red-500 cursor-pointer disabled:opacity-50"
+                        >
+                            회원가입
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => router.push("/")}
+                            className="bg-gray-400 text-black px-6 py-2 rounded font-medium hover:bg-gray-300 cursor-pointer"
+                        >
+                            취소
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
+
+
 }
