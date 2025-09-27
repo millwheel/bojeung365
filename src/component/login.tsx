@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import {supabaseClient} from "@/supabase/api";
+import {supabaseClient} from "@/supabase/client";
+import { useRouter } from "next/navigation";
 
 type LoginProps = {
     className?: string;
@@ -13,6 +14,7 @@ export default function Login({ className, onSuccess }: LoginProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [pending, setPending] = useState(false);
+    const router = useRouter();
 
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -30,6 +32,7 @@ export default function Login({ className, onSuccess }: LoginProps) {
 
         toast.success('로그인 성공!');
         onSuccess?.(data.user?.id ?? '');
+        router.refresh();
     };
 
     return (

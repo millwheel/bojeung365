@@ -1,5 +1,4 @@
-import Login from "@/component/login";
-import AuthBox from "@/component/AuthBox";
+import AuthBox from "@/component/authbox";
 
 export default function LeftNavigationBar() {
     return (
