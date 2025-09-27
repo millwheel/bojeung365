@@ -7,13 +7,13 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
 
 const NAV = [
-    { label: "공식보증업체", href: "/official" },
-    { label: "테더보증업체", href: "/tether" },
-    { label: "블랙리스트", href: "/blacklist" },
-    { label: "먹튀신고", href: "/report" },
-    { label: "이벤트", href: "/events" },
-    { label: "이용후기", href: "/review" },
-    { label: "공지사항", href: "/notice" },
+    { label: "공식보증업체", href: "/main/official" },
+    { label: "테더보증업체", href: "/main/tether" },
+    { label: "블랙리스트", href: "/main/blacklist" },
+    { label: "먹튀신고", href: "/main/report" },
+    { label: "이벤트", href: "/main/events" },
+    { label: "이용후기", href: "/main/review" },
+    { label: "공지사항", href: "/main/notice" },
 ];
 
 export default function GlobalNavigationBar() {

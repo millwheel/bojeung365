@@ -67,6 +67,16 @@ export default function Login({ className, onSuccess }: LoginProps) {
                     </button>
                 </div>
             </form>
+            {/* 회원가입 버튼 */}
+            <div className="mt-2 text-right">
+                <button
+                    type="button"
+                    onClick={() => router.push('/register')}
+                    className="text-xs text-gray-400 hover:text-gray-200 cursor-pointer hover:underline"
+                >
+                    회원가입
+                </button>
+            </div>
         </div>
 
     );

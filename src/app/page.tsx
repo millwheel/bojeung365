@@ -1,9 +1,5 @@
-import Image from "next/image";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (
-      <section className="bg-[#22242d] h-72">
-            <span>메인페이지 내용</span>
-      </section>
-  );
+    redirect("/main");
 }

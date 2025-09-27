@@ -1,10 +1,11 @@
 export enum UserRole {
-    Admin = 'admin',
-    Member = 'member',
+    Admin = 'ADMIN',
+    Member = 'MEMBER',
 }
 
 export type UserProfile = {
     uid: string;
     nickname: string;
     role: UserRole;
+    name: string;
 };

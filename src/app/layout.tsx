@@ -33,7 +33,7 @@ export default function RootLayout({
         >
             <GlobalNavigationBar />
             <main className="mx-auto max-w-6xl  bg-[#191919]">
-                <div className="grid md:grid-cols-4">
+                <div>
                     {/* 배너 */}
                     <div className="relative h-40 md:h-56 md:col-span-4 isolate overflow-hidden">
                         {/* 배경 이미지 (맨 뒤) */}
@@ -63,20 +63,9 @@ export default function RootLayout({
                             </p>
                         </div>
                     </div>
-
-                    {/* LNB: 아래 행 좌측 1/4 */}
-                    <aside className="md:col-span-1 pl-2 py-2 pr-1">
-                        <LeftNavigationBar />
-                    </aside>
-
-                    {/* 메인: 아래 행 우측 3/4 */}
-                    <section className="md:col-span-3 min-w-0 pr-2 pl-1 py-2">
-                        {children}
-                    </section>
+                    {children}
                 </div>
             </main>
-
-
         </body>
     </html>
   );
