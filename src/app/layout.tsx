@@ -34,14 +34,26 @@ export default function RootLayout({
             <GlobalNavigationBar />
             <main className="mx-auto max-w-6xl  bg-[#191919]">
                 <div className="grid md:grid-cols-4">
-                    {/* 배너: 첫 번째 행 전체 폭 */}
+                    {/* 배너 */}
                     <div className="relative h-40 md:h-56 md:col-span-4 bg-gray-800">
                         <Image
                             src="/image/banner.png"
-                            alt="배너가 들어갈 위치"
+                            alt="배너 배경 사진"
                             fill
                             className="object-cover rounded-lg"
                         />
+                        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 bg-black/40">
+                            <h1 className="text-white text-lg md:text-2xl font-bold mb-2">
+                                <span className="bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600 bg-clip-text text-transparent">
+                                    보증365
+                                </span>{" "}
+                                믿을 수 있는 중개 플랫폼
+                            </h1>
+                            <p className="text-gray-200 text-xs md:text-sm max-w-3xl leading-relaxed">
+                                제휴 사이트의 운영자와 계약을 맺고, 문제 발생 시 보증365가 사용자 피해에 개입합니다. <br />
+                                보증365가 기준에 부합하는 사이트만 추천되며, 실시간 모니터링이 지속됩니다.
+                            </p>
+                        </div>
                     </div>
 
                     {/* LNB: 아래 행 좌측 1/4 */}
