@@ -24,7 +24,6 @@ export default function Login({ className, onSuccess }: LoginProps) {
         setPending(false);
 
         if (error) {
-            console.error(error);
             toast.error('로그인에 실패했습니다. \n 아이디와 비밀번호를 확인해주세요');
             return;
         }
