@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { supabaseBrowser } from '@/supabase/client';
+import {supabaseClient} from "@/supabase/api";
 
 type LoginProps = {
     className?: string;
@@ -17,14 +17,15 @@ export default function Login({ className, onSuccess }: LoginProps) {
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setPending(true);
-        const supabase = supabaseBrowser();
 
+        const supabase = supabaseClient();
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
         setPending(false);
 
         if (error) {
-            toast.error(error.message || '로그인에 실패했습니다.');
+            console.error(error);
+            toast.error('로그인에 실패했습니다. \n 아이디와 비밀번호를 확인해주세요');
             return;
         }
 

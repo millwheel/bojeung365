@@ -36,12 +36,12 @@ export default function RootLayout({
                 <div className="grid md:grid-cols-4">
                     {/* 배너 */}
                     <div className="relative h-40 md:h-56 md:col-span-4 bg-gray-800">
-                        <Image
-                            src="/image/banner.png"
-                            alt="배너 배경 사진"
-                            fill
-                            className="object-cover rounded-lg"
-                        />
+                        {/*<Image*/}
+                        {/*    src="/image/banner.png"*/}
+                        {/*    alt="배너 배경 사진"*/}
+                        {/*    fill*/}
+                        {/*    className="object-cover rounded-lg"*/}
+                        {/*/>*/}
                         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 bg-black/40">
                             <h1 className="text-white text-lg md:text-2xl font-bold mb-2">
                                 <span className="bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600 bg-clip-text text-transparent">
