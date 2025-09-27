@@ -35,14 +35,22 @@ export default function RootLayout({
             <main className="mx-auto max-w-6xl  bg-[#191919]">
                 <div className="grid md:grid-cols-4">
                     {/* 배너 */}
-                    <div className="relative h-40 md:h-56 md:col-span-4 bg-gray-800">
-                        {/*<Image*/}
-                        {/*    src="/image/banner.png"*/}
-                        {/*    alt="배너 배경 사진"*/}
-                        {/*    fill*/}
-                        {/*    className="object-cover rounded-lg"*/}
-                        {/*/>*/}
-                        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 bg-black/40">
+                    <div className="relative h-40 md:h-56 md:col-span-4 isolate overflow-hidden">
+                        {/* 배경 이미지 (맨 뒤) */}
+                        <Image
+                            src="/image/header_banner.jpg"
+                            alt="헤더 배너"
+                            fill
+                            sizes="100vw"
+                            className="object-cover z-0"
+                            priority
+                        />
+
+                        {/* 반투명 오버레이 (중간) */}
+                        <div className="absolute inset-0 bg-black/70 z-10 pointer-events-none" />
+
+                        {/* 텍스트 (맨 위) */}
+                        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4">
                             <h1 className="text-white text-lg md:text-2xl font-bold mb-2">
                                 <span className="bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600 bg-clip-text text-transparent">
                                     보증365
@@ -68,7 +76,7 @@ export default function RootLayout({
                 </div>
             </main>
 
-            <Toaster position="top-center" reverseOrder={false} />
+
         </body>
     </html>
   );

@@ -6,7 +6,7 @@ export default function BlackList() {
         <div>
             <section className="relative bg-[#22242d] h-60 text-white">
                 <div>
-                    <Image src="/image/banner.gif" alt="공식업체 배너" fill className="object-cover" />
+                    <Image src="/image/body_banner.gif" alt="본문 배너" fill className="object-cover" />
                 </div>
             </section>
             <section>
