@@ -60,7 +60,7 @@ export default function Login({ className, onSuccess }: LoginProps) {
                         disabled={pending}
                         className="self-stretch bg-red-600 px-4 text-white font-medium hover:bg-red-500 cursor-pointer"
                     >
-                        {pending ? '로그인 중…' : '로그인'}
+                        로그인
                     </button>
                 </div>
             </form>
