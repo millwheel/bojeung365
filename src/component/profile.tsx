@@ -1,14 +1,14 @@
 "use client";
 
 import toast from "react-hot-toast";
-import {supabaseClient} from "@/supabase/client";
+import {supabaseBrowserClient} from "@/supabase/client";
 import { useRouter } from "next/navigation";
 
 export default function Profile({ email }: { email: string; }) {
     const router = useRouter();
 
     const handleLogout = async () => {
-        const { error } = await supabaseClient().auth.signOut();
+        const { error } = await supabaseBrowserClient().auth.signOut();
         if (error) toast.error("로그아웃 실패");
         else {
             toast.success("로그아웃 성공!");

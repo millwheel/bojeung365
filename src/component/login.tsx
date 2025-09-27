@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import {supabaseClient} from "@/supabase/client";
+import {supabaseBrowserClient} from "@/supabase/client";
 import { useRouter } from "next/navigation";
 
 type LoginProps = {
@@ -20,7 +20,7 @@ export default function Login({ className, onSuccess }: LoginProps) {
         e.preventDefault();
         setPending(true);
 
-        const supabase = supabaseClient();
+        const supabase = supabaseBrowserClient();
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
         setPending(false);
