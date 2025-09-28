@@ -1,4 +1,3 @@
-// components/Pagination.tsx
 "use client";
 
 type PaginationProps = {
@@ -23,10 +22,10 @@ export default function Pagination({
     const btnBase =
         "px-3 py-2 rounded-md border transition-colors select-none";
     const btnIdle =
-        "border-white/10 bg-[#1b1d24] text-white hover:bg-white/10 cursor-pointer";
+        "border-gray-300 bg-white text-gray-800 hover:bg-gray-200 cursor-pointer";
     const btnActive =
-        "border-yellow-500 bg-yellow-500/10 text-yellow-400 cursor-pointer";
-    const btnDisabled = "opacity-40 cursor-not-allowed";
+        "border-gray-500 bg-gray-500 text-white cursor-pointer";
+    const btnDisabled = "text-gray-800 bg-white cursor-not-allowed";
 
     const clamp = (v: number, min: number, max: number) =>
         Math.max(min, Math.min(max, v));

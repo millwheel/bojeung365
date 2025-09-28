@@ -1,4 +1,3 @@
-// components/ReviewBoard.tsx
 "use client";
 
 import { useMemo, useState } from "react";
@@ -53,25 +52,15 @@ export default function ReviewBoard() {
         return SAMPLE_POSTS.slice(start, start + PAGE_SIZE);
     }, [page]);
 
-    const goto = (p: number) => {
-        if (p < 1 || p > totalPages) return;
-        setPage(p);
-    };
-
-    const pageButtons = useMemo(() => {
-        const window = 2;
-        const nums = new Set<number>([1, totalPages]);
-        for (let p = page - window; p <= page + window; p++) if (p >= 1 && p <= totalPages) nums.add(p);
-        return Array.from(nums).sort((a, b) => a - b);
-    }, [page, totalPages]);
+    const cellClass = "px-3 py-2 text-center text-gray-700";
 
     return (
         <div className="w-full">
-            <div className="overflow-x-auto rounded-lg border border-white/10 bg-[#1b1d24]">
+            <div className="overflow-x-auto rounded-lg border border-gray-300 bg-white">
                 <table className="min-w-full text-sm">
                     <thead>
-                    <tr className="bg-black/30 text-gray-200">
-                        <th className="w-16 px-3 py-3 text-center font-medium">번호</th>
+                    <tr className="bg-gray-100 text-gray-800">
+                        <th className="w-16 px-3 py-1 text-center font-medium">번호</th>
                         <th className="px-3 py-3 text-left font-medium">제목</th>
                         <th className="w-32 px-3 py-3 text-center font-medium">유저명</th>
                         <th className="w-32 px-3 py-3 text-center font-medium">날짜</th>
@@ -81,33 +70,25 @@ export default function ReviewBoard() {
 
                     <tbody>
                     {current.map((post) => (
-                        <tr key={post.id} className="border-t border-white/5 hover:bg-white/5 transition-colors">
-                            <td className="px-3 py-3 text-center text-gray-300">{post.id}</td>
-                            <td className="px-3 py-3">
+                        <tr
+                            key={post.id}
+                            className="border-t border-gray-200 hover:bg-gray-50 transition-colors"
+                        >
+                            <td className={cellClass}>{post.id}</td>
+                            <td className="px-3 py-2 text-left text-black">
                                 <Link
                                     href="#"
-                                    className="block max-w-[900px] truncate text-white hover:text-yellow-400"
+                                    className="block max-w-[900px] truncate hover:text-blue-600"
                                     title={post.title}
                                 >
                                     {post.title}
                                 </Link>
                             </td>
-                            <td className="px-3 py-3 text-center text-gray-300">{post.user}</td>
-                            <td className="px-3 py-3 text-center text-gray-300">{post.date}</td>
-                            <td className="px-3 py-3 text-center text-gray-300">{nf.format(post.views)}</td>
+                            <td className={cellClass}>{post.user}</td>
+                            <td className={cellClass}>{post.date}</td>
+                            <td className={cellClass}>{nf.format(post.views)}</td>
                         </tr>
                     ))}
-
-                    {current.length < PAGE_SIZE &&
-                        Array.from({ length: PAGE_SIZE - current.length }).map((_, i) => (
-                            <tr key={`empty-${i}`} className="border-t border-white/5">
-                                <td className="px-3 py-3 text-center text-gray-500">-</td>
-                                <td className="px-3 py-3 text-gray-500">-</td>
-                                <td className="px-3 py-3 text-center text-gray-500">-</td>
-                                <td className="px-3 py-3 text-center text-gray-500">-</td>
-                                <td className="px-3 py-3 text-center text-gray-500">-</td>
-                            </tr>
-                        ))}
                     </tbody>
                 </table>
             </div>
@@ -116,8 +97,6 @@ export default function ReviewBoard() {
                 currentPage={page}
                 totalPages={totalPages}
                 onChange={setPage}
-                boundaryCount={1}
-                siblingCount={2}
                 showFirstLast={true}
                 showPrevNext={true}
             />
