@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import Pagination from "@/component/pagination";
+import {formatDate} from "@/util/dataFormat";
 
 type Post = {
     id: number;
@@ -17,15 +18,20 @@ const BASE_UTC = Date.parse("2025-09-01T00:00:00Z"); // 고정 기준일(UTC)
 
 // 결정적(SSR=CSR 동일) 샘플 데이터 생성
 function makeSampleData(count = 20): Post[] {
+    const today = new Date(); // 오늘 날짜 기준
     return Array.from({ length: count }, (_, i) => {
         const id = count - i;
 
-        // 날짜: 기준일에서 i일 빼기 (UTC 고정)
-        const ms = BASE_UTC - i * 24 * 60 * 60 * 1000;
-        const d = new Date(ms);
-        const yyyy = d.getUTCFullYear();
-        const mm = String(d.getUTCMonth() + 1).padStart(2, "0");
-        const dd = String(d.getUTCDate()).padStart(2, "0");
+        // 오늘에서 i일 빼기
+        const d = new Date(today);
+        d.setDate(today.getDate() - i);
+
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, "0");
+        const dd = String(d.getDate()).padStart(2, "0");
+
+        const hh = String(d.getHours()).padStart(2, "0");
+        const min = String(d.getMinutes()).padStart(2, "0");
 
         // 조회수: 랜덤 대신 결정적 수식
         const views = (id * 137) % 5000;
@@ -33,8 +39,9 @@ function makeSampleData(count = 20): Post[] {
         return {
             id,
             title: `공지사항 샘플 제목 ${id} — 긴 제목도 한 줄로 말줄임`,
-            user: '관리자',
-            date: `${yyyy}-${mm}-${dd}`,
+            user: "관리자",
+            // YYYY-MM-DD HH:mm 형식으로 저장
+            date: `${yyyy}-${mm}-${dd} ${hh}:${min}`,
             views,
         };
     });
@@ -85,7 +92,7 @@ export default function NoticeBoard() {
                                 </Link>
                             </td>
                             <td className={cellClass}>{post.user}</td>
-                            <td className={cellClass}>{post.date}</td>
+                            <td className={cellClass}>{formatDate(post.date)}</td>
                             <td className={cellClass}>{nf.format(post.views)}</td>
                         </tr>
                     ))}
