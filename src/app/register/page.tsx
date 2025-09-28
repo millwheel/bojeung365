@@ -4,13 +4,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast, {Toaster} from "react-hot-toast";
 import { supabaseBrowserClient } from "@/supabase/client";
-import { UserRole } from "@/data/userType";
 
 export default function RegisterPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [nickname, setNickname] = useState("");
     const [pending, setPending] = useState(false);
 
     const [errors, setErrors] = useState<{
@@ -60,7 +58,7 @@ export default function RegisterPage() {
             return;
         }
 
-        toast.success("회원가입 성공! 로그인 해주세요.");
+        toast.success("회원가입 성공!");
         router.push("/");
     };
 
