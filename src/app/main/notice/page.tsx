@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import NoticeBoard from "@/component/noticeBoard";
 
 export default function NoticePage() {
     return (
@@ -15,7 +15,7 @@ export default function NoticePage() {
                     <div className="border-b-2 border-red-500 w-full"></div>
                 </div>
                 <div>
-                    게시판
+                    <NoticeBoard />
                 </div>
             </section>
         </div>
