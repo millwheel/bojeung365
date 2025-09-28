@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 
-export default function BlackList() {
+export default function NoticePage() {
     return (
         <div>
             <section className="relative bg-[#22242d] h-60 text-white">

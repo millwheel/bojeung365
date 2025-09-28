@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import ReviewBoard from "@/component/reviewBoard";
 
 export default function ReviewPage() {
     return (
@@ -15,7 +15,7 @@ export default function ReviewPage() {
                     <div className="border-b-2 border-red-500 w-full"></div>
                 </div>
                 <div>
-                    게시판
+                    <ReviewBoard />
                 </div>
             </section>
         </div>
