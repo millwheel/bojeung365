@@ -7,5 +7,4 @@ export type UserProfile = {
     uid: string;
     nickname: string;
     role: UserRole;
-    name: string;
 };
