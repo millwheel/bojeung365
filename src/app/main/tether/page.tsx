@@ -3,7 +3,7 @@
 export default function TetherPage() {
     return (
         <div>
-            <section className="relative bg-[#22242d] h-60 text-white">
+            <section className="relative bg-[#22242d] h-72 text-white">
                 <p>테더보증업체 안내 문구</p>
             </section>
             <section>

@@ -4,7 +4,7 @@ import NoticeBoard from "@/component/noticeBoard";
 export default function NoticePage() {
     return (
         <div>
-            <section className="relative bg-[#22242d] h-60 text-white">
+            <section className="relative bg-[#22242d] h-72 text-white">
                 <div>
                     <Image src="/image/body_banner.gif" alt="본문 배너" fill className="object-cover" />
                 </div>
