@@ -2,20 +2,26 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import toast, {Toaster} from "react-hot-toast";
-import { supabaseBrowserClient } from "@/supabase/client";
+import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
+import apiClient from "@/lib/apiClient";
+import {ApiError} from "@/data/errorType";
+
+type SignUpRequest = {
+    username: string;
+    password: string;
+};
 
 export default function RegisterPage() {
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState(""); // 이메일 → 아이디
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [pending, setPending] = useState(false);
 
     const [errors, setErrors] = useState<{
-        email?: string;
+        username?: string;
         password?: string;
         confirmPassword?: string;
-        nickname?: string;
     }>({});
 
     const router = useRouter();
@@ -23,43 +29,43 @@ export default function RegisterPage() {
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        const trimmed = username.trim();
+        if (!trimmed) {
+            setErrors({ username: "아이디를 입력하세요." });
+            return;
+        }
+        if (/\s/.test(trimmed)) {
+            setErrors({ username: "아이디에는 공백을 포함할 수 없습니다." });
+            return;
+        }
+        if (password.length < 6) {
+            setErrors({ password: "비밀번호는 6자 이상이어야 합니다." });
+            return;
+        }
         if (password !== confirmPassword) {
             setErrors({ confirmPassword: "비밀번호가 일치하지 않습니다." });
             return;
         }
 
+        setErrors({});
         setPending(true);
-        const supabase = supabaseBrowserClient();
+        try {
+            const req: SignUpRequest = { username: trimmed, password };
+            await apiClient.post<void>("/sign-up", req);
 
-        // 1. Supabase Auth 회원가입
-        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-            email,
-            password,
-        });
-
-        if (signUpError) {
-            setPending(false);
-            if (signUpError.message.includes("character")) {
-                setErrors({ password: "패스워드는 6자 이상이어야합니다."});
-                return;
+            toast.success("회원가입 성공!");
+            router.push("/");
+        } catch (err: unknown) {
+            if (axios.isAxiosError<ApiError>(err)) {
+                const data = err.response?.data;
+                const message = data?.message ?? err.message ?? "알 수 없는 오류가 발생했습니다.";
+                toast.error(`[회원가입 실패] ${message}`);
+            } else {
+                toast.error("네트워크 오류가 발생했습니다.");
             }
-            if (signUpError.message.includes("Email address")) {
-                setErrors({ email: "유효하지 않는 이메일입니다."});
-                return;
-            }
-            toast.error(`회원가입 실패: ${signUpError.message}`);
-            return;
-        }
-
-        const userId = signUpData.user?.id;
-        if (!userId) {
-            toast.error("사용자 ID 생성 실패");
+        } finally {
             setPending(false);
-            return;
         }
-
-        toast.success("회원가입 성공!");
-        router.push("/");
     };
 
     return (
@@ -72,20 +78,25 @@ export default function RegisterPage() {
                 >
                     <h1 className="text-2xl font-bold text-center mb-6">회원가입</h1>
 
+                    {/* 아이디 입력 */}
                     <div>
                         <div className="flex items-center gap-4">
-                            <label className="w-48">이메일</label>
+                            <label className="w-48">아이디</label>
                             <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value.trim())}
+                                type="text"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
                                 required
                                 className="flex-1 border border-gray-300 px-4 py-2 outline-none"
+                                autoComplete="username"
                             />
                         </div>
-                        {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
+                        {errors.username && (
+                            <p className="text-red-600 text-sm mt-1">{errors.username}</p>
+                        )}
                     </div>
 
+                    {/* 비밀번호 */}
                     <div>
                         <div className="flex items-center gap-4">
                             <label className="w-48">비밀번호 (6자 이상)</label>
@@ -95,11 +106,15 @@ export default function RegisterPage() {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                                 className="flex-1 border border-gray-300 px-4 py-2 outline-none"
+                                autoComplete="new-password"
                             />
                         </div>
-                        {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password}</p>}
+                        {errors.password && (
+                            <p className="text-red-600 text-sm mt-1">{errors.password}</p>
+                        )}
                     </div>
 
+                    {/* 비밀번호 확인 */}
                     <div>
                         <div className="flex items-center gap-4">
                             <label className="w-48">비밀번호 확인</label>
@@ -109,9 +124,12 @@ export default function RegisterPage() {
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 required
                                 className="flex-1 border border-gray-300 px-4 py-2 outline-none"
+                                autoComplete="new-password"
                             />
                         </div>
-                        {errors.confirmPassword && <p className="text-red-600 text-sm mt-1">{errors.confirmPassword}</p>}
+                        {errors.confirmPassword && (
+                            <p className="text-red-600 text-sm mt-1">{errors.confirmPassword}</p>
+                        )}
                     </div>
 
                     <div className="flex justify-center gap-6 pt-6">
@@ -120,7 +138,7 @@ export default function RegisterPage() {
                             disabled={pending}
                             className="bg-red-600 text-white px-6 py-2 rounded font-medium hover:bg-red-500 cursor-pointer disabled:opacity-50"
                         >
-                            회원가입
+                            {pending ? "처리 중..." : "회원가입"}
                         </button>
                         <button
                             type="button"
@@ -134,5 +152,4 @@ export default function RegisterPage() {
             </div>
         </div>
     );
-
 }
