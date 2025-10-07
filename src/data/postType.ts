@@ -9,7 +9,7 @@ export type UserProfile = {
     role: UserRole;
 };
 
-export enum BoardType {
+export enum PostType {
     Notice = 'notice',
     Event = 'event',
     Review = 'review',
@@ -20,7 +20,7 @@ export enum BoardType {
 
 export type BasePost = {
     id: number;
-    board: BoardType;
+    board: PostType;
     title: string;
     content: string;
     author: string;
@@ -35,13 +35,13 @@ export type ReportPost = BasePost & {
 }
 
 export type EventPost  = BasePost & {
-    board: BoardType.Event;
+    board: PostType.Event;
     eventStart?: string;
     eventEnd?: string;
 };
 
 export type ReviewPost = BasePost & {
-    board: BoardType.Review;
+    board: PostType.Review;
     siteName: string;
     siteUrl: string;
     incomeDate: string;
