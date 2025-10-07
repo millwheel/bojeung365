@@ -5,23 +5,26 @@ import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import apiClient from "@/lib/apiClient";
-import {ApiError} from "@/data/errorType";
+import {ApiError} from "@/type/errorType";
 
 type SignUpRequest = {
     username: string;
     password: string;
+    nickname: string;
 };
 
 export default function RegisterPage() {
     const [username, setUsername] = useState(""); // 이메일 → 아이디
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [nickname, setNickname] = useState("");
     const [pending, setPending] = useState(false);
 
     const [errors, setErrors] = useState<{
         username?: string;
         password?: string;
         confirmPassword?: string;
+        nickname?: string;
     }>({});
 
     const router = useRouter();
@@ -29,12 +32,14 @@ export default function RegisterPage() {
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const trimmed = username.trim();
-        if (!trimmed) {
+        const trimmedUsername = username.trim();
+        const trimmedNickname = nickname.trim();
+
+        if (!trimmedUsername) {
             setErrors({ username: "아이디를 입력하세요." });
             return;
         }
-        if (/\s/.test(trimmed)) {
+        if (/\s/.test(trimmedUsername)) {
             setErrors({ username: "아이디에는 공백을 포함할 수 없습니다." });
             return;
         }
@@ -46,11 +51,19 @@ export default function RegisterPage() {
             setErrors({ confirmPassword: "비밀번호가 일치하지 않습니다." });
             return;
         }
+        if (!trimmedNickname) {
+            setErrors({ nickname: "닉네임을 입력하세요." });
+            return;
+        }
 
         setErrors({});
         setPending(true);
         try {
-            const req: SignUpRequest = { username: trimmed, password };
+            const req: SignUpRequest = {
+                username: trimmedUsername,
+                password,
+                nickname: trimmedNickname,
+            };
             await apiClient.post<void>("/sign-up", req);
 
             toast.success("회원가입 성공!");
@@ -132,6 +145,25 @@ export default function RegisterPage() {
                         )}
                     </div>
 
+                    {/* 닉네임 입력 */}
+                    <div>
+                        <div className="flex items-center gap-4">
+                            <label className="w-48">닉네임</label>
+                            <input
+                                type="text"
+                                value={nickname}
+                                onChange={(e) => setNickname(e.target.value)}
+                                required
+                                className="flex-1 border border-gray-300 px-4 py-2 outline-none"
+                                autoComplete="nickname"
+                            />
+                        </div>
+                        {errors.nickname && (
+                            <p className="text-red-600 text-sm mt-1">{errors.nickname}</p>
+                        )}
+                    </div>
+
+                    {/* 버튼 */}
                     <div className="flex justify-center gap-6 pt-6">
                         <button
                             type="submit"
