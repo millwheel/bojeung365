@@ -35,10 +35,6 @@ export default function RegisterPage() {
         const trimmedUsername = username.trim();
         const trimmedNickname = nickname.trim();
 
-        if (!trimmedUsername) {
-            setErrors({ username: "아이디를 입력하세요." });
-            return;
-        }
         if (/\s/.test(trimmedUsername)) {
             setErrors({ username: "아이디에는 공백을 포함할 수 없습니다." });
             return;
@@ -51,20 +47,15 @@ export default function RegisterPage() {
             setErrors({ confirmPassword: "비밀번호가 일치하지 않습니다." });
             return;
         }
-        if (!trimmedNickname) {
-            setErrors({ nickname: "닉네임을 입력하세요." });
-            return;
-        }
 
         setErrors({});
         setPending(true);
         try {
-            const req: SignUpRequest = {
+            await apiClient.post<void>("/sign-up", {
                 username: trimmedUsername,
                 password,
                 nickname: trimmedNickname,
-            };
-            await apiClient.post<void>("/sign-up", req);
+            });
 
             toast.success("회원가입 성공!");
             router.push("/");
