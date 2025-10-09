@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import {supabaseBrowserClient} from "@/supabase/client";
 import { useRouter } from "next/navigation";
 import apiClient from "@/lib/apiClient";
 import axios from "axios";
@@ -21,14 +22,27 @@ export default function Login({ className }: LoginProps) {
         e.preventDefault();
         setPending(true);
 
-        try {
+        // const supabase = supabaseBrowserClient();
+        // const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        //
+        // setPending(false);
+        //
+        // if (error) {
+        //     toast.error('로그인에 실패했습니다. \n 아이디와 비밀번호를 확인해주세요');
+        //     return;
+        // }
+        //
+        // toast.success('로그인 성공!');
+        // onSuccess?.(data.user?.id ?? '');
+        // router.refresh();
 
+        try {
             await apiClient.post<void>("/login", {
                 username,
                 password,
             });
 
-            toast.success('로그인 성공!');
+            toast.success("로그인 성공!");
             router.refresh();
         } catch (err: unknown) {
             if (axios.isAxiosError<ApiError>(err)) {
@@ -38,7 +52,7 @@ export default function Login({ className }: LoginProps) {
             } else {
                 toast.error("네트워크 오류가 발생했습니다.");
             }
-        }  finally {
+        } finally {
             setPending(false);
         }
     };
