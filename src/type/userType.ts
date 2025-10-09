@@ -4,7 +4,8 @@ export enum UserRole {
 }
 
 export type UserProfile = {
-    uid: string;
+    username: string;
     nickname: string;
+    email: string;
     role: UserRole;
 };

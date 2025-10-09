@@ -7,12 +7,6 @@ import axios from "axios";
 import apiClient from "@/lib/apiClient";
 import {ApiError} from "@/type/errorType";
 
-type SignUpRequest = {
-    username: string;
-    password: string;
-    nickname: string;
-};
-
 export default function RegisterPage() {
     const [username, setUsername] = useState(""); // 이메일 → 아이디
     const [password, setPassword] = useState("");

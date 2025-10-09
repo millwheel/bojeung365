@@ -22,6 +22,7 @@ export default function Login({ className }: LoginProps) {
         setPending(true);
 
         try {
+
             await apiClient.post<void>("/login", {
                 username,
                 password,
