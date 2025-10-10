@@ -12,6 +12,7 @@ export default function RegisterPage() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [nickname, setNickname] = useState("");
+    const [email, setEmail] = useState("");
     const [pending, setPending] = useState(false);
 
     const [errors, setErrors] = useState<{
@@ -19,6 +20,7 @@ export default function RegisterPage() {
         password?: string;
         confirmPassword?: string;
         nickname?: string;
+        email?: string;
     }>({});
 
     const router = useRouter();
@@ -26,11 +28,12 @@ export default function RegisterPage() {
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const trimmedUsername = username.trim();
-        const trimmedNickname = nickname.trim();
-
-        if (/\s/.test(trimmedUsername)) {
+        if (/\s/.test(username)) {
             setErrors({ username: "아이디에는 공백을 포함할 수 없습니다." });
+            return;
+        }
+        if (!/^[a-z]+$/.test(username)) {
+            setErrors({ username: "아이디는 영어 소문자만 사용할 수 있습니다." });
             return;
         }
         if (password.length < 6) {
@@ -41,14 +44,23 @@ export default function RegisterPage() {
             setErrors({ confirmPassword: "비밀번호가 일치하지 않습니다." });
             return;
         }
+        if (/\s/.test(nickname)) {
+            setErrors({ nickname: "닉네임에는 공백을 포함할 수 없습니다." });
+            return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            setErrors({ email: "올바른 이메일 형식이 아닙니다." });
+            return;
+        }
 
         setErrors({});
         setPending(true);
         try {
             await apiClient.post<void>("/sign-up", {
-                username: trimmedUsername,
+                username,
                 password,
-                nickname: trimmedNickname,
+                nickname,
+                email
             });
 
             toast.success("회원가입 성공!");
@@ -145,6 +157,24 @@ export default function RegisterPage() {
                         </div>
                         {errors.nickname && (
                             <p className="text-red-600 text-sm mt-1">{errors.nickname}</p>
+                        )}
+                    </div>
+
+                    {/* 이메일 입력 */}
+                    <div>
+                        <div className="flex items-center gap-4">
+                            <label className="w-48">이메일</label>
+                            <input
+                                type="text"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                className="flex-1 border border-gray-300 px-4 py-2 outline-none"
+                                autoComplete="nickname"
+                            />
+                        </div>
+                        {errors.email && (
+                            <p className="text-red-600 text-sm mt-1">{errors.email}</p>
                         )}
                     </div>
 
