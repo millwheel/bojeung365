@@ -7,7 +7,11 @@ import apiClient from "@/lib/apiClient";
 import axios from "axios";
 import {ApiError} from "@/type/errorType";
 
-export default function Profile(userProfile: UserProfile) {
+type ProfileProps = {
+    userProfile: UserProfile;
+};
+
+export default function Profile({ userProfile }: ProfileProps) {
     const router = useRouter();
 
     const handleLogout = async () => {
