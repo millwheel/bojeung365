@@ -35,18 +35,18 @@ async function wrap<T>(p: Promise<AxiosResponse<T>>): Promise<ApiResult<T>> {
     }
 }
 
-export function getR<T>(url: string, config?: AxiosRequestConfig) {
+export function apiGet<T>(url: string, config?: AxiosRequestConfig) {
     return wrap<T>(apiClient.get<T>(url, config));
 }
 
-export function postR<T>(url: string, body?: unknown, config?: AxiosRequestConfig) {
+export function apiPost<T>(url: string, body?: unknown, config?: AxiosRequestConfig) {
     return wrap<T>(apiClient.post<T>(url, body, config));
 }
 
-export function putR<T>(url: string, body?: unknown, config?: AxiosRequestConfig) {
+export function apiPut<T>(url: string, body?: unknown, config?: AxiosRequestConfig) {
     return wrap<T>(apiClient.put<T>(url, body, config));
 }
 
-export function delR<T>(url: string, config?: AxiosRequestConfig) {
+export function apiDelete<T>(url: string, config?: AxiosRequestConfig) {
     return wrap<T>(apiClient.delete<T>(url, config));
 }

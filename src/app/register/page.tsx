@@ -3,9 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
-import axios from "axios";
-import apiClient from "@/lib/apiClient";
-import {ApiError} from "@/type/errorType";
+import {apiPost} from "@/lib/api";
 
 export default function RegisterPage() {
     const [username, setUsername] = useState(""); // 이메일 → 아이디
@@ -55,27 +53,18 @@ export default function RegisterPage() {
 
         setErrors({});
         setPending(true);
-        try {
-            await apiClient.post<void>("/sign-up", {
-                username,
-                password,
-                nickname,
-                email
-            });
+        const { error } = await apiPost<void>("/sign-up", {
+            username, password, nickname, email
+        });
 
-            toast.success("회원가입 성공!");
-            router.push("/");
-        } catch (err: unknown) {
-            if (axios.isAxiosError<ApiError>(err)) {
-                const data = err.response?.data;
-                const message = data?.message ?? err.message ?? "알 수 없는 오류가 발생했습니다.";
-                toast.error(`[회원가입 실패] ${message}`);
-            } else {
-                toast.error("네트워크 오류가 발생했습니다.");
-            }
-        } finally {
-            setPending(false);
+        setPending(false);
+
+        if (error) {
+            toast.error(`[회원가입 실패] ${error.message}`);
+            return;
         }
+        toast.success("회원가입 성공!");
+        router.push("/");
     };
 
     return (

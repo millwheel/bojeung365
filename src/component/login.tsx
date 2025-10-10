@@ -3,9 +3,7 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useRouter } from "next/navigation";
-import apiClient from "@/lib/apiClient";
-import axios from "axios";
-import {ApiError} from "@/type/errorType";
+import { apiPost } from "@/lib/api";
 
 type LoginProps = {
     className?: string;
@@ -22,36 +20,16 @@ export default function Login({ className, onLoggedIn }: LoginProps) {
         e.preventDefault();
         setPending(true);
 
-        // const supabase = supabaseBrowserClient();
-        // const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-        //
-        // setPending(false);
-        //
-        // if (error) {
-        //     toast.error('로그인에 실패했습니다. \n 아이디와 비밀번호를 확인해주세요');
-        //     return;
-        // }
-        //
-        // toast.success('로그인 성공!');
-        // onSuccess?.(data.user?.id ?? '');
-        // router.refresh();
+        const { error } = await apiPost<void>("/login", { username, password });
 
-        try {
-            await apiClient.post<void>("/login", {username, password});
+        setPending(false);
 
-            toast.success("로그인 성공!");
-            await onLoggedIn(); // ✅ 상태 갱신 트리거
-        } catch (err: unknown) {
-            if (axios.isAxiosError<ApiError>(err)) {
-                const data = err.response?.data;
-                const message = data?.message ?? err.message ?? "알 수 없는 오류가 발생했습니다.";
-                toast.error(`[로그인 실패] ${message}`);
-            } else {
-                toast.error("네트워크 오류가 발생했습니다.");
-            }
-        } finally {
-            setPending(false);
+        if (error) {
+            toast.error(`[로그인 실패] ${error.message}`);
+            return;
         }
+        toast.success("로그인 성공!");
+        await onLoggedIn?.();
     };
 
     return (
