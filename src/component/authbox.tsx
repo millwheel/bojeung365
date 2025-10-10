@@ -22,7 +22,7 @@ export default function AuthBox() {
     }, [reloadMe]);
 
     return (
-        <div className="h-28 w-full">
+        <div className="h-28 w-full bg-[#212121] border-[0.5px] border-gray-100/20">
             {loading ? (
                 <div className="flex items-center justify-center">
                     <p>로딩 중...</p>
