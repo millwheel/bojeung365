@@ -21,12 +21,17 @@ export default function AuthBox() {
         reloadMe();
     }, [reloadMe]);
 
-    if (loading) return (
-        <div className="h-28 w-full flex items-center justify-center">
-            <p>로딩 중...</p>
+    return (
+        <div className="h-28 w-full">
+            {loading ? (
+                <div className="flex items-center justify-center">
+                    <p>로딩 중...</p>
+                </div>
+            ) : !me ? (
+                <Login onLoggedIn={reloadMe} />
+            ) : (
+                <Profile userProfile={me} onLoggedOut={reloadMe} />
+            )}
         </div>
     );
-    if (!me) return <Login onLoggedIn={reloadMe} />;
-
-    return <Profile userProfile={me} onLoggedOut={reloadMe} />;
 }

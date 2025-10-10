@@ -23,14 +23,15 @@ export default function Profile({ userProfile, onLoggedOut }: ProfileProps) {
 
     return (
         <div className="p-2">
-            <div className="flex items-center">
-                <div className="flex-1 text-white text-sm">
+            <div className="flex items-stretch">
+                <div className="flex flex-col flex-1 text-white text-sm justify-center">
                     <p className="font-medium">안녕하세요</p>
                     <p className="truncate text-gray-300">{userProfile.nickname}님</p>
                 </div>
+
                 <button
                     onClick={handleLogout}
-                    className="bg-red-600 px-4 py-2 text-white font-medium hover:bg-red-500 cursor-pointer rounded"
+                    className="self-stretch bg-red-600 px-4 text-white font-medium hover:bg-red-500 cursor-pointer"
                 >
                     로그아웃
                 </button>
