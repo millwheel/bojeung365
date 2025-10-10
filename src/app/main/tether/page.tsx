@@ -1,10 +1,11 @@
+import Image from "next/image";
 
 
 export default function TetherPage() {
     return (
         <div>
-            <section className="relative bg-[#22242d] h-72 text-white">
-                <p>테더보증업체 안내 문구</p>
+            <section className="relative bg-[#22242d] h-84 text-white">
+                <Image src="/image/tether_banner.gif" alt="테더업체 배너" fill />
             </section>
             <section>
                 <div className="py-2">

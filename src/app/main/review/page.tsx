@@ -4,10 +4,8 @@ import ReviewBoard from "@/component/reviewBoard";
 export default function ReviewPage() {
     return (
         <div>
-            <section className="relative bg-[#22242d] h-72 text-white">
-                <div>
-                    <Image src="/image/body_banner.gif" alt="본문 배너" fill className="object-cover" />
-                </div>
+            <section className="relative bg-[#22242d] h-84 text-white">
+                <Image src="/image/review_banner.jpg" alt="리뷰 배너" fill className="object-cover" />
             </section>
             <section>
                 <div className="py-2">

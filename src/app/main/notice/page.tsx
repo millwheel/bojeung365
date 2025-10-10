@@ -4,10 +4,8 @@ import NoticeBoard from "@/component/noticeBoard";
 export default function NoticePage() {
     return (
         <div>
-            <section className="relative bg-[#22242d] h-72 text-white">
-                <div>
-                    <Image src="/image/body_banner.gif" alt="본문 배너" fill className="object-cover" />
-                </div>
+            <section className="relative bg-[#22242d] h-84 text-white">
+                <Image src="/image/notice_banner.jpg" alt="공지 배너" fill className="object-cover" />
             </section>
             <section>
                 <div className="py-2">
