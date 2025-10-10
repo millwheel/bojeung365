@@ -1,7 +1,6 @@
 "use client";
 
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import {UserProfile} from "@/type/userType";
 import apiClient from "@/lib/apiClient";
 import axios from "axios";
@@ -13,7 +12,6 @@ type ProfileProps = {
 };
 
 export default function Profile({ userProfile, onLoggedOut }: ProfileProps) {
-    const router = useRouter();
 
     const handleLogout = async () => {
         try {
