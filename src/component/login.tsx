@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import {supabaseBrowserClient} from "@/supabase/client";
 import { useRouter } from "next/navigation";
 import apiClient from "@/lib/apiClient";
 import axios from "axios";
@@ -10,9 +9,10 @@ import {ApiError} from "@/type/errorType";
 
 type LoginProps = {
     className?: string;
+    onLoggedIn: () => Promise<void> | void;
 };
 
-export default function Login({ className }: LoginProps) {
+export default function Login({ className, onLoggedIn }: LoginProps) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [pending, setPending] = useState(false);
@@ -37,13 +37,10 @@ export default function Login({ className }: LoginProps) {
         // router.refresh();
 
         try {
-            await apiClient.post<void>("/login", {
-                username,
-                password,
-            });
+            await apiClient.post<void>("/login", {username, password});
 
             toast.success("로그인 성공!");
-            router.refresh();
+            await onLoggedIn(); // ✅ 상태 갱신 트리거
         } catch (err: unknown) {
             if (axios.isAxiosError<ApiError>(err)) {
                 const data = err.response?.data;

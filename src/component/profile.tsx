@@ -9,16 +9,17 @@ import {ApiError} from "@/type/errorType";
 
 type ProfileProps = {
     userProfile: UserProfile;
+    onLoggedOut: () => Promise<void> | void;
 };
 
-export default function Profile({ userProfile }: ProfileProps) {
+export default function Profile({ userProfile, onLoggedOut }: ProfileProps) {
     const router = useRouter();
 
     const handleLogout = async () => {
         try {
             await apiClient.post<void>("/logout", {});
             toast.success('로그아웃 성공!');
-            router.refresh();
+            await onLoggedOut(); // ✅ 상태 갱신 트리거
         } catch (err: unknown) {
             if (axios.isAxiosError<ApiError>(err)) {
                 const data = err.response?.data;
