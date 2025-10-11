@@ -77,7 +77,7 @@ export default function NoticeBoard() {
             </div>
 
             <Pagination
-                currentPage={currentPage}
+                currentPage={currentPage + 1}
                 totalPages={totalPages}
                 onChange={setCurrentPage}
                 showFirstLast={true}
