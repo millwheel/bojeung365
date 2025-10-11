@@ -1,6 +1,6 @@
 "use client";
 
-import {useCallback, useEffect, useMemo, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import Link from "next/link";
 import Pagination from "@/component/pagination";
 import {formatDate} from "@/util/dataFormat";
@@ -25,8 +25,6 @@ export default function NoticeBoard() {
         if (error) {
             toast.error(`[공지사항 불러오기 실패] ${error.message}`);
         } else if (data) {
-            console.log(data);
-            console.log(data.totalPages);
             setPosts(data.content ?? []);
             setTotalPages(data.totalPages ?? 0);
         }
@@ -42,12 +40,12 @@ export default function NoticeBoard() {
             <div className="overflow-x-auto rounded-lg border border-gray-300 bg-white">
                 <table className="min-w-full text-sm">
                     <thead>
-                    <tr className="bg-gray-100 text-gray-800">
-                        <th className="w-16 px-3 py-1 text-center font-medium">번호</th>
-                        <th className="px-3 py-3 text-left font-medium">제목</th>
-                        <th className="w-32 px-3 py-3 text-center font-medium">유저명</th>
-                        <th className="w-32 px-3 py-3 text-center font-medium">날짜</th>
-                        <th className="w-20 px-3 py-3 text-center font-medium">조회</th>
+                    <tr className="bg-gray-100 text-gray-800 text-center">
+                        <th className="w-16 px-3 py-3">번호</th>
+                        <th className="">제목</th>
+                        <th className="w-32">작성자</th>
+                        <th className="w-32">날짜</th>
+                        <th className="w-20">조회</th>
                     </tr>
                     </thead>
 

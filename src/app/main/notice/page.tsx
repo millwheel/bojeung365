@@ -12,9 +12,7 @@ export default function NoticePage() {
                     <h2 className="text-base font-bold">공지사항</h2>
                     <div className="border-b-2 border-red-500 w-full"></div>
                 </div>
-                <div>
-                    <NoticeBoard />
-                </div>
+                <NoticeBoard />
             </section>
         </div>
     );
