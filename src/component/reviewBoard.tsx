@@ -1,24 +1,25 @@
 "use client";
 
-import {useCallback, useEffect, useState} from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import Pagination from "@/component/pagination";
-import {formatDate} from "@/util/dataFormat";
-import {NoticePostList} from "@/type/postType";
-import {apiGet} from "@/lib/api";
+import { formatDate } from "@/util/dataFormat";
+import { ReviewPostList } from "@/type/postType";
+import { apiGet } from "@/lib/api";
 import toast from "react-hot-toast";
+import BoardTable, { Column } from "@/component/boardTable";
 
 const cellClass = "px-3 py-2 text-center text-gray-700";
 const numberFormat = new Intl.NumberFormat("ko-KR");
 
 export default function ReviewBoard() {
-    const [posts, setPosts] = useState<NoticePostList[]>([]);
+    const [posts, setPosts] = useState<ReviewPostList[]>([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
 
     const loadPosts = useCallback(async () => {
 
-        const { data, error } = await apiGet<PageResponse<NoticePostList>>(
+        const { data, error } = await apiGet<PageResponse<ReviewPostList>>(
             `/posts/review?page=${currentPage}`
         );
 
@@ -35,46 +36,46 @@ export default function ReviewBoard() {
         loadPosts();
     }, [loadPosts]);
 
+    const columns: Column<ReviewPostList>[] = [
+        { header: "번호", thClassName: "w-20 py-3", tdClassName: "text-center", key: "id" },
+        {
+            header: "제목",
+            thClassName: "",
+            tdClassName: "px-3 py-2 text-left",
+            render: (post) => (
+                <Link
+                    href="#"
+                    className="block max-w-[900px] truncate"
+                    title={post.title}
+                >
+                    {post.title}
+                </Link>
+            ),
+        },
+        { header: "사이트주소", thClassName: "w-28", key: "siteUrl" },
+        { header: "작성자", thClassName: "w-28", tdClassName: "text-center", key: "authorNickname" },
+        {
+            header: "날짜",
+            thClassName: "w-28",
+            tdClassName: "text-center",
+            render: (post) => formatDate(post.createdAt),
+        },
+        {
+            header: "조회",
+            thClassName: "w-20",
+            tdClassName: "text-center",
+            render: (post) => numberFormat.format(post.viewCount),
+        },
+    ];
+
     return (
         <div className="w-full">
-            <div className="overflow-x-auto rounded-lg border border-gray-300 bg-white">
-                <table className="min-w-full text-sm">
-                    <thead>
-                    <tr className="bg-gray-100 text-gray-800 text-center">
-                        <th className="w-16 px-3 py-3">번호</th>
-                        <th className="">제목</th>
-                        <th className="w-30">사이트주소</th>
-                        <th className="w-28">작성자</th>
-                        <th className="w-28">날짜</th>
-                        <th className="w-20">조회</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    {posts.map((post) => (
-                        <tr
-                            key={post.id}
-                            className="border-t border-gray-200 hover:bg-gray-50 transition-colors"
-                        >
-                            <td className={cellClass}>{post.id}</td>
-                            <td className="px-3 py-2 text-left text-black">
-                                <Link
-                                    href="#"
-                                    className="block max-w-[900px] truncate hover:text-blue-600"
-                                    title={post.title}
-                                >
-                                    {post.title}
-                                </Link>
-                            </td>
-                            <td className={cellClass}>{post.authorNickname}</td>
-                            <td className={cellClass}>{formatDate(post.createdAt)}</td>
-                            <td className={cellClass}>{numberFormat.format(post.viewCount)}</td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-            </div>
-
+            <BoardTable<ReviewPostList>
+                rows={posts}
+                columns={columns}
+                rowKey={(p) => p.id}
+                cellClass={cellClass}
+            />
             <Pagination
                 currentPage={currentPage + 1}
                 totalPages={totalPages}

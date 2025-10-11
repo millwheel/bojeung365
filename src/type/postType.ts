@@ -31,12 +31,12 @@ export type OfficialPostList = BasePostList & {
 
 export type ReviewPostList = BasePostList & {
     board: PostType.REVIEW;
-    siteName: string;
+    siteUrl: string;
 };
 
 export type ReportPostList = BasePostList & {
     board: PostType.REPORT;
-    siteName: string;
+    siteUrl: string;
 };
 
 export type TetherPostList = BasePostList & {

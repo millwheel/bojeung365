@@ -1,11 +1,11 @@
 "use client";
 
-import {useCallback, useEffect, useState} from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import Pagination from "@/component/pagination";
-import {formatDate} from "@/util/dataFormat";
-import {apiGet} from "@/lib/api";
-import {NoticePostList} from "@/type/postType";
+import { formatDate } from "@/util/dataFormat";
+import { apiGet } from "@/lib/api";
+import { NoticePostList } from "@/type/postType";
 import toast from "react-hot-toast";
 import BoardTable, { Column } from "@/component/boardTable";
 
@@ -37,7 +37,7 @@ export default function NoticeBoard() {
     }, [loadPosts]);
 
     const columns: Column<NoticePostList>[] = [
-        { header: "번호", thClassName: "w-16 px-3 py-3", tdClassName: "text-center", key: "id" },
+        { header: "번호", thClassName: "w-20 py-3", tdClassName: "text-center", key: "id" },
         {
             header: "제목",
             thClassName: "",
