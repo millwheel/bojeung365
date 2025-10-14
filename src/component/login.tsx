@@ -2,16 +2,16 @@
 
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import {supabaseBrowserClient} from "@/supabase/client";
 import { useRouter } from "next/navigation";
+import { apiPost } from "@/lib/api";
 
 type LoginProps = {
     className?: string;
-    onSuccess?: (userId: string) => void;
+    onLoggedIn: () => Promise<void> | void;
 };
 
-export default function Login({ className, onSuccess }: LoginProps) {
-    const [email, setEmail] = useState('');
+export default function Login({ className, onLoggedIn }: LoginProps) {
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [pending, setPending] = useState(false);
     const router = useRouter();
@@ -20,19 +20,16 @@ export default function Login({ className, onSuccess }: LoginProps) {
         e.preventDefault();
         setPending(true);
 
-        const supabase = supabaseBrowserClient();
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        const { error } = await apiPost<void>("/login", { username, password });
 
         setPending(false);
 
         if (error) {
-            toast.error('로그인에 실패했습니다. \n 아이디와 비밀번호를 확인해주세요');
+            toast.error(`[로그인 실패] ${error.message}`);
             return;
         }
-
-        toast.success('로그인 성공!');
-        onSuccess?.(data.user?.id ?? '');
-        router.refresh();
+        toast.success("로그인 성공!");
+        await onLoggedIn?.();
     };
 
     return (
@@ -41,11 +38,11 @@ export default function Login({ className, onSuccess }: LoginProps) {
                 <div className="flex">
                     <div className="flex flex-col flex-1 text-black text-xs">
                         <input
-                            type="email"
+                            type="string"
                             required
-                            placeholder="이메일"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value.trim())}
+                            placeholder="아이디"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value.trim())}
                             className="w-full border border-gray-300 bg-white px-3 py-2 outline-none"
                         />
                         <input
@@ -67,7 +64,7 @@ export default function Login({ className, onSuccess }: LoginProps) {
                     </button>
                 </div>
             </form>
-            {/* 회원가입 버튼 */}
+
             <div className="mt-2 text-right">
                 <button
                     type="button"

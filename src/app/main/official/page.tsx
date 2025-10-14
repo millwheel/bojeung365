@@ -1,8 +1,10 @@
+import Image from "next/image";
+
 export default function OfficialPage() {
     return (
         <div>
-            <section className="relative bg-[#22242d] h-72 text-white">
-                <p>공식보증업체 안내 문구</p>
+            <section className="relative bg-[#22242d] h-84 text-white">
+                <Image src="/image/official_banner.gif" alt="공식업체 배너" fill />
             </section>
             <section>
                 <div className="py-2">

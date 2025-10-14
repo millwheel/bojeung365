@@ -3,10 +3,8 @@ import Image from "next/image";
 export default function EventPage() {
     return (
         <div>
-            <section className="relative bg-[#22242d] h-72 text-white">
-                <div>
-                    <Image src="/image/body_banner.gif" alt="본문 배너" fill className="object-cover" />
-                </div>
+            <section className="relative bg-[#22242d] h-84 text-white">
+                <Image src="/image/event_banner.jpg" alt="이벤트 배너" fill className="object-cover" />
             </section>
             <section>
                 <div className="py-2">

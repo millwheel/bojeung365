@@ -1,50 +1,45 @@
 export enum PostType {
-    Notice = 'notice',
-    Event = 'event',
-    Review = 'review',
-    Report = 'report',
-    Tether = 'tether',
-    Official = 'official',
+    NOTICE = 'notice',
+    EVENT = 'event',
+    REVIEW = 'review',
+    REPORT = 'report', // ScamReport
+    TETHER = 'tether',
+    OFFICIAL = 'official',
 }
 
-export type BasePost = {
+export type BasePostList = {
     id: number;
-    board: PostType;
     title: string;
-    content: string;
-    author: string;
-    createdAt: string; // ISO
-    views: number;
+    viewCount: number;
+    createdAt: string; // ISO 8601 string (LocalDateTime)
+    authorNickname: string;
+    commentCount: number;
 };
 
-export type ReportPost = BasePost & {
-    id: number;
-    siteName: string;
+export type NoticePostList = BasePostList & {
+    board: PostType.NOTICE;
+};
+
+export type EventPostList = BasePostList & {
+    board: PostType.EVENT;
+};
+
+export type OfficialPostList = BasePostList & {
+    board: PostType.OFFICIAL;
+    thumbnailUrl?: string;
+};
+
+export type ReviewPostList = BasePostList & {
+    board: PostType.REVIEW;
     siteUrl: string;
-}
-
-export type EventPost  = BasePost & {
-    board: PostType.Event;
-    eventStart?: string;
-    eventEnd?: string;
 };
 
-export type ReviewPost = BasePost & {
-    board: PostType.Review;
-    siteName: string;
+export type ReportPostList = BasePostList & {
+    board: PostType.REPORT;
     siteUrl: string;
-    incomeDate: string;
-    incomeAmount: number;
-    velocityRating: number;
-    incomeRating: number;
-    eventRating: number;
-    reliabilityRating: number;
 };
 
-export type Comment = {
-    id: number;
-    postId: number;
-    author: string;
-    content: string;
-    createdAt: string;
+export type TetherPostList = BasePostList & {
+    board: PostType.TETHER;
+    thumbnailUrl?: string;
 };

@@ -3,21 +3,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
-import axios from "axios";
-import apiClient from "@/lib/apiClient";
-import {ApiError} from "@/type/errorType";
-
-type SignUpRequest = {
-    username: string;
-    password: string;
-    nickname: string;
-};
+import {apiPost} from "@/lib/api";
 
 export default function RegisterPage() {
     const [username, setUsername] = useState(""); // 이메일 → 아이디
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [nickname, setNickname] = useState("");
+    const [email, setEmail] = useState("");
     const [pending, setPending] = useState(false);
 
     const [errors, setErrors] = useState<{
@@ -25,6 +18,7 @@ export default function RegisterPage() {
         password?: string;
         confirmPassword?: string;
         nickname?: string;
+        email?: string;
     }>({});
 
     const router = useRouter();
@@ -32,15 +26,12 @@ export default function RegisterPage() {
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const trimmedUsername = username.trim();
-        const trimmedNickname = nickname.trim();
-
-        if (!trimmedUsername) {
-            setErrors({ username: "아이디를 입력하세요." });
+        if (/\s/.test(username)) {
+            setErrors({ username: "아이디에는 공백을 포함할 수 없습니다." });
             return;
         }
-        if (/\s/.test(trimmedUsername)) {
-            setErrors({ username: "아이디에는 공백을 포함할 수 없습니다." });
+        if (!/^[a-z]+$/.test(username)) {
+            setErrors({ username: "아이디는 영어 소문자만 사용할 수 있습니다." });
             return;
         }
         if (password.length < 6) {
@@ -51,34 +42,29 @@ export default function RegisterPage() {
             setErrors({ confirmPassword: "비밀번호가 일치하지 않습니다." });
             return;
         }
-        if (!trimmedNickname) {
-            setErrors({ nickname: "닉네임을 입력하세요." });
+        if (/\s/.test(nickname)) {
+            setErrors({ nickname: "닉네임에는 공백을 포함할 수 없습니다." });
+            return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            setErrors({ email: "올바른 이메일 형식이 아닙니다." });
             return;
         }
 
         setErrors({});
         setPending(true);
-        try {
-            const req: SignUpRequest = {
-                username: trimmedUsername,
-                password,
-                nickname: trimmedNickname,
-            };
-            await apiClient.post<void>("/sign-up", req);
+        const { error } = await apiPost<void>("/sign-up", {
+            username, password, nickname, email
+        });
 
-            toast.success("회원가입 성공!");
-            router.push("/");
-        } catch (err: unknown) {
-            if (axios.isAxiosError<ApiError>(err)) {
-                const data = err.response?.data;
-                const message = data?.message ?? err.message ?? "알 수 없는 오류가 발생했습니다.";
-                toast.error(`[회원가입 실패] ${message}`);
-            } else {
-                toast.error("네트워크 오류가 발생했습니다.");
-            }
-        } finally {
-            setPending(false);
+        setPending(false);
+
+        if (error) {
+            toast.error(`[회원가입 실패] ${error.message}`);
+            return;
         }
+        toast.success("회원가입 성공!");
+        router.push("/");
     };
 
     return (
@@ -160,6 +146,24 @@ export default function RegisterPage() {
                         </div>
                         {errors.nickname && (
                             <p className="text-red-600 text-sm mt-1">{errors.nickname}</p>
+                        )}
+                    </div>
+
+                    {/* 이메일 입력 */}
+                    <div>
+                        <div className="flex items-center gap-4">
+                            <label className="w-48">이메일</label>
+                            <input
+                                type="text"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                className="flex-1 border border-gray-300 px-4 py-2 outline-none"
+                                autoComplete="nickname"
+                            />
+                        </div>
+                        {errors.email && (
+                            <p className="text-red-600 text-sm mt-1">{errors.email}</p>
                         )}
                     </div>
 
