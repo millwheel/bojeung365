@@ -1,6 +1,7 @@
 import AuthBox from "@/component/authbox";
 import {Toaster} from "react-hot-toast";
 import TelegramLink from "@/component/telegram";
+import LnbNoticeBoard from "@/component/lnbNoticeBoard";
 
 export default function LeftNavigationBar() {
     return (
@@ -12,6 +13,9 @@ export default function LeftNavigationBar() {
                 </li>
                 <li>
                     <TelegramLink />
+                </li>
+                <li>
+                    <LnbNoticeBoard />
                 </li>
             </ul>
         </aside>
