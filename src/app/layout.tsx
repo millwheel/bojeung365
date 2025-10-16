@@ -5,6 +5,7 @@ import GlobalNavigationBar from "@/component/gnb";
 import LeftNavigationBar from "@/component/lnb";
 import Image from "next/image";
 import {Toaster} from "react-hot-toast";
+import Footer from "@/component/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -66,6 +67,7 @@ export default function RootLayout({
                     {children}
                 </div>
             </main>
+            <Footer />
         </body>
     </html>
   );
