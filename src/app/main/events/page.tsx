@@ -1,4 +1,5 @@
 import Image from "next/image";
+import EventBoard from "@/board/eventBoard";
 
 export default function EventPage() {
     return (
@@ -11,9 +12,7 @@ export default function EventPage() {
                     <h2 className="text-base font-bold">이벤트</h2>
                     <div className="border-b-2 border-red-500 w-full"></div>
                 </div>
-                <div>
-                    게시판
-                </div>
+                <EventBoard />
             </section>
         </div>
     );
