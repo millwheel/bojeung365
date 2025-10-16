@@ -1,5 +1,5 @@
 import Image from "next/image";
-import NoticeBoard from "@/component/noticeBoard";
+import NoticeBoard from "@/board/noticeBoard";
 
 export default function NoticePage() {
     return (

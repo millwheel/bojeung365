@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ReviewBoard from "@/component/reviewBoard";
+import ReviewBoard from "@/board/reviewBoard";
 
 export default function ReviewPage() {
     return (
