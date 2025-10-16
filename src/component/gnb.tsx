@@ -21,7 +21,7 @@ export default function GlobalNavigationBar() {
     const [open, setOpen] = useState(false);
 
     return (
-        <header className="w-full border-b border-black/10">
+        <header className="w-full border-b-4 border-blue-600">
             <div className="bg-white h-16 flex items-center justify-center px-4 relative">
                 <Link href="/">
                     <Image src="/image/logo.png" alt="로고" height={50} width={140} />
@@ -29,7 +29,7 @@ export default function GlobalNavigationBar() {
 
                 {/* 모바일 햄버거 */}
                 <button
-                    className="sm:hidden p-2 rounded-lg hover:bg-black/10 absolute right-4"
+                    className="sm:hidden p-2 rounded-lg hover:bg-black/60 absolute right-4 bg-black cursor-pointer"
                     onClick={() => setOpen(!open)}
                     aria-label={open ? "메뉴 닫기" : "메뉴 열기"}
                     aria-expanded={open}
