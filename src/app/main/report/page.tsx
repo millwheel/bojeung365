@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ReportBoard from "@/board/reportBoard";
 
 
 export default function ReportPage() {
@@ -12,9 +13,7 @@ export default function ReportPage() {
                     <h2 className="text-base font-bold">먹튀신고</h2>
                     <div className="border-b-2 border-red-500 w-full"></div>
                 </div>
-                <div>
-                    게시판
-                </div>
+                <ReportBoard />
             </section>
         </div>
     );
