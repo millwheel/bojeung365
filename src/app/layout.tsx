@@ -37,15 +37,6 @@ export default function RootLayout({
                 <div>
                     {/* 배너 */}
                     <div className="relative h-40 md:h-56 md:col-span-4 isolate overflow-hidden">
-                        {/* 배경 이미지 (맨 뒤) */}
-                        <Image
-                            src="/image/header_banner.jpg"
-                            alt="헤더 배너"
-                            fill
-                            sizes="100vw"
-                            className="object-cover z-0"
-                            priority
-                        />
 
                         {/* 반투명 오버레이 (중간) */}
                         <div className="absolute inset-0 bg-black/70 z-10 pointer-events-none" />
