@@ -10,7 +10,7 @@ export default function LnbNoticeBoard() {
     const [posts, setPosts] = useState<NoticePostList[]>([]);
 
     const loadPosts = useCallback(async () => {
-        const { data, error } = await apiGet<PageResponse<NoticePostList>>(
+        const { data, error } = await apiGet<BoardResponse<NoticePostList>>(
             `/posts/notice?page=0&size=5`
         );
         if (error) {

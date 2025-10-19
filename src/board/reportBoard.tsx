@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import Pagination from "@/component/pagination";
 import { formatDate } from "@/util/dataFormat";
-import { ReportPostList } from "@/type/postType";
+import { ReportPostList } from "@/type/boardResponse";
 import { apiGet } from "@/lib/api";
 import toast from "react-hot-toast";
 import BoardTable, { Column } from "@/component/boardTable";
@@ -20,7 +20,7 @@ export default function ReportBoard() {
 
     const loadPosts = useCallback(async () => {
 
-        const { data, error } = await apiGet<PageResponse<ReportPostList>>(
+        const { data, error } = await apiGet<BoardResponse<ReportPostList>>(
             `/posts/scam-report?page=${currentPage}`
         );
 

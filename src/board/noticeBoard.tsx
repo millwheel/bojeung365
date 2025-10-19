@@ -5,7 +5,7 @@ import Link from "next/link";
 import Pagination from "@/component/pagination";
 import { formatDate } from "@/util/dataFormat";
 import { apiGet } from "@/lib/api";
-import { NoticePostList } from "@/type/postType";
+import { NoticePostList } from "@/type/boardResponse";
 import toast from "react-hot-toast";
 import BoardTable, { Column } from "@/component/boardTable";
 import WriteButton from "@/component/writeButton";
@@ -20,7 +20,7 @@ export default function NoticeBoard() {
 
     const loadPosts = useCallback(async () => {
 
-        const { data, error } = await apiGet<PageResponse<NoticePostList>>(
+        const { data, error } = await apiGet<BoardResponse<NoticePostList>>(
             `/posts/notice?page=${currentPage}`
         );
 
@@ -45,7 +45,7 @@ export default function NoticeBoard() {
             tdClassName: "px-3 py-2 text-left",
             render: (post) => (
                 <Link
-                    href="#"
+                    href={`/main/notice/${post.id}`}
                     className="block max-w-[900px] truncate"
                     title={post.title}
                 >

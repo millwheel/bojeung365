@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import Pagination from "@/component/pagination";
 import { formatDate } from "@/util/dataFormat";
-import { ReviewPostList } from "@/type/postType";
+import { ReviewPostList } from "@/type/boardResponse";
 import { apiGet } from "@/lib/api";
 import toast from "react-hot-toast";
 import BoardTable, { Column } from "@/component/boardTable";
@@ -20,7 +20,7 @@ export default function ReviewBoard() {
 
     const loadPosts = useCallback(async () => {
 
-        const { data, error } = await apiGet<PageResponse<ReviewPostList>>(
+        const { data, error } = await apiGet<BoardResponse<ReviewPostList>>(
             `/posts/review?page=${currentPage}`
         );
 

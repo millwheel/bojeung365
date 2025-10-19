@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import Pagination from "@/component/pagination";
 import { formatDate } from "@/util/dataFormat";
-import { EventPostList } from "@/type/postType";
+import { EventPostList } from "@/type/boardResponse";
 import { apiGet } from "@/lib/api";
 import toast from "react-hot-toast";
 import BoardTable, { Column } from "@/component/boardTable";
@@ -20,7 +20,7 @@ export default function EventBoard() {
 
     const loadPosts = useCallback(async () => {
 
-        const { data, error } = await apiGet<PageResponse<EventPostList>>(
+        const { data, error } = await apiGet<BoardResponse<EventPostList>>(
             `/posts/event?page=${currentPage}`
         );
 
