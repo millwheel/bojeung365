@@ -11,7 +11,7 @@ const NAV = [
     { label: "테더보증업체", href: "/main/tether" },
     { label: "블랙리스트", href: "/main/blacklist" },
     { label: "먹튀신고", href: "/main/report" },
-    { label: "이벤트", href: "/main/events" },
+    { label: "이벤트", href: "/main/event" },
     { label: "이용후기", href: "/main/review" },
     { label: "공지사항", href: "/main/notice" },
 ];

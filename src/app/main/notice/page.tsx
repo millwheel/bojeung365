@@ -2,6 +2,8 @@ import Image from "next/image";
 import NoticeBoard from "@/board/noticeBoard";
 
 export default function NoticePage() {
+
+
     return (
         <div>
             <section className="relative bg-[#22242d] h-84 text-white">
@@ -12,6 +14,7 @@ export default function NoticePage() {
                     <h2 className="text-base font-bold">공지사항</h2>
                     <div className="border-b-2 border-red-500 w-full"></div>
                 </div>
+
                 <NoticeBoard />
             </section>
         </div>

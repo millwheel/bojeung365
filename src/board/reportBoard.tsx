@@ -8,6 +8,7 @@ import { ReportPostList } from "@/type/postType";
 import { apiGet } from "@/lib/api";
 import toast from "react-hot-toast";
 import BoardTable, { Column } from "@/component/boardTable";
+import WriteButton from "@/component/writeButton";
 
 const cellClass = "px-3 py-2 text-center text-gray-700";
 const numberFormat = new Intl.NumberFormat("ko-KR");
@@ -76,13 +77,19 @@ export default function ReportBoard() {
                 rowKey={(p) => p.id}
                 cellClass={cellClass}
             />
-            <Pagination
-                currentPage={currentPage + 1}
-                totalPages={totalPages}
-                onChange={setCurrentPage}
-                showFirstLast={true}
-                showPrevNext={true}
-            />
+            <div className="flex items-center justify-between mt-4">
+                <div className="flex-1 flex justify-center">
+                    <Pagination
+                        currentPage={currentPage + 1}
+                        totalPages={totalPages}
+                        onChange={setCurrentPage}
+                        showFirstLast={true}
+                        showPrevNext={true}
+                    />
+                </div>
+
+                <WriteButton onlyAdmin={false} onClick={() => router.push("/main/report/new")} />
+            </div>
         </div>
     );
 }
