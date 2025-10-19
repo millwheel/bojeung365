@@ -1,6 +1,6 @@
 import {PostType} from "@/type/postType";
 
-type BoardResponse<T> = {
+export type BoardResponse<T> = {
     content: T[];
     totalElements: number;
     totalPages: number;

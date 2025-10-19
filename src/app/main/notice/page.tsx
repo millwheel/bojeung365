@@ -3,7 +3,6 @@ import NoticeBoard from "@/board/noticeBoard";
 
 export default function NoticePage() {
 
-
     return (
         <div>
             <section className="relative bg-[#22242d] h-84 text-white">

@@ -5,12 +5,12 @@ import Link from "next/link";
 import Pagination from "@/component/pagination";
 import { formatDate } from "@/util/dataFormat";
 import { apiGet } from "@/lib/api";
-import { NoticePostList } from "@/type/boardResponse";
+import {BoardResponse, NoticePostList} from "@/type/boardResponse";
 import toast from "react-hot-toast";
 import BoardTable, { Column } from "@/component/boardTable";
 import WriteButton from "@/component/writeButton";
+import {router} from "next/client";
 
-const numberFormat = new Intl.NumberFormat("ko-KR");
 const cellClass = "px-3 py-2 text-center text-gray-700";
 
 export default function NoticeBoard() {
@@ -64,7 +64,7 @@ export default function NoticeBoard() {
             header: "조회",
             thClassName: "w-20",
             tdClassName: "text-center",
-            render: (post) => numberFormat.format(post.viewCount),
+            render: (post) => post.viewCount,
         },
     ];
 
