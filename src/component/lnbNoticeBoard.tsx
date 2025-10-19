@@ -1,7 +1,7 @@
 "use client";
 
 import {useCallback, useEffect, useState} from "react";
-import {NoticePostList} from "@/type/postType";
+import {BoardResponse, NoticePostList} from "@/type/boardResponse";
 import {apiGet} from "@/lib/api";
 import toast from "react-hot-toast";
 import Link from "next/link";
@@ -10,7 +10,7 @@ export default function LnbNoticeBoard() {
     const [posts, setPosts] = useState<NoticePostList[]>([]);
 
     const loadPosts = useCallback(async () => {
-        const { data, error } = await apiGet<PageResponse<NoticePostList>>(
+        const { data, error } = await apiGet<BoardResponse<NoticePostList>>(
             `/posts/notice?page=0&size=5`
         );
         if (error) {

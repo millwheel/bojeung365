@@ -1,19 +1,20 @@
-"use client";
+"use client"
 
-import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
-import Pagination from "@/component/pagination";
-import { formatDate } from "@/util/dataFormat";
-import { apiGet } from "@/lib/api";
+import Image from "next/image";
+import BoardTable, {Column} from "@/component/boardTable";
 import {BoardResponse, NoticePostList} from "@/type/boardResponse";
-import toast from "react-hot-toast";
-import BoardTable, { Column } from "@/component/boardTable";
+import Pagination from "@/component/pagination";
 import WriteButton from "@/component/writeButton";
 import {router} from "next/client";
+import {useCallback, useEffect, useState} from "react";
+import {apiGet} from "@/lib/api";
+import toast from "react-hot-toast";
+import Link from "next/link";
+import {formatDate} from "@/util/dataFormat";
 
 const cellClass = "px-3 py-2 text-center text-gray-700";
 
-export default function NoticeBoard() {
+export default function NoiceLayout({ children }: { children: React.ReactNode }) {
     const [posts, setPosts] = useState<NoticePostList[]>([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
@@ -69,26 +70,39 @@ export default function NoticeBoard() {
     ];
 
     return (
-        <div className="w-full">
-            <BoardTable<NoticePostList>
-                rows={posts}
-                columns={columns}
-                rowKey={(p) => p.id}
-                cellClass={cellClass}
-            />
-            <div className="flex items-center justify-between mt-4">
-                <div className="flex-1 flex justify-center">
-                    <Pagination
-                        currentPage={currentPage + 1}
-                        totalPages={totalPages}
-                        onChange={setCurrentPage}
-                        showFirstLast={true}
-                        showPrevNext={true}
-                    />
+        <div>
+            <section className="relative bg-[#22242d] h-84 text-white">
+                <Image src="/image/notice_banner.jpg" alt="공지 배너" fill className="object-cover" />
+            </section>
+            <section>
+                <div className="py-2">
+                    <h2 className="text-base font-bold">공지사항</h2>
+                    <div className="border-b-2 border-red-500 w-full"></div>
                 </div>
+                {children}
+            </section>
+            <div className="py-2"></div>
+            <section>
+                <BoardTable<NoticePostList>
+                    rows={posts}
+                    columns={columns}
+                    rowKey={(p) => p.id}
+                    cellClass={cellClass}
+                />
+                <div className="flex items-center justify-between mt-4">
+                    <div className="flex-1 flex justify-center">
+                        <Pagination
+                            currentPage={currentPage + 1}
+                            totalPages={totalPages}
+                            onChange={setCurrentPage}
+                            showFirstLast={true}
+                            showPrevNext={true}
+                        />
+                    </div>
 
-                <WriteButton onlyAdmin={true} onClick={() => router.push("/main/notice/new")} />
-            </div>
+                    <WriteButton onlyAdmin={true} onClick={() => router.push("/main/notice/new")} />
+                </div>
+            </section>
         </div>
     );
 }

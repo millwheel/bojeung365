@@ -1,20 +1,20 @@
-"use client";
+"use client"
 
-import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
-import Pagination from "@/component/pagination";
-import { formatDate } from "@/util/dataFormat";
+import Image from "next/image";
+import BoardTable, {Column} from "@/component/boardTable";
 import {BoardResponse, EventPostList} from "@/type/boardResponse";
-import { apiGet } from "@/lib/api";
-import toast from "react-hot-toast";
-import BoardTable, { Column } from "@/component/boardTable";
+import Pagination from "@/component/pagination";
 import WriteButton from "@/component/writeButton";
 import {router} from "next/client";
+import {useCallback, useEffect, useState} from "react";
+import {apiGet} from "@/lib/api";
+import toast from "react-hot-toast";
+import Link from "next/link";
+import {formatDate} from "@/util/dataFormat";
 
 const cellClass = "px-3 py-2 text-center text-gray-700";
-const numberFormat = new Intl.NumberFormat("ko-KR");
 
-export default function EventBoard() {
+export default function NoiceLayout({ children }: { children: React.ReactNode }) {
     const [posts, setPosts] = useState<EventPostList[]>([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
@@ -65,31 +65,46 @@ export default function EventBoard() {
             header: "조회",
             thClassName: "w-20",
             tdClassName: "text-center",
-            render: (post) => numberFormat.format(post.viewCount),
+            render: (post) => post.viewCount,
         },
     ];
 
     return (
-        <div className="w-full">
-            <BoardTable<EventPostList>
-                rows={posts}
-                columns={columns}
-                rowKey={(p) => p.id}
-                cellClass={cellClass}
-            />
-            <div className="flex items-center justify-between mt-4">
-                <div className="flex-1 flex justify-center">
-                    <Pagination
-                        currentPage={currentPage + 1}
-                        totalPages={totalPages}
-                        onChange={setCurrentPage}
-                        showFirstLast={true}
-                        showPrevNext={true}
-                    />
+        <div>
+            <section className="relative bg-[#22242d] h-84 text-white">
+                <Image src="/image/event_banner.jpg" alt="이벤트 배너" fill className="object-cover" />
+            </section>
+            <section>
+                <div className="py-2">
+                    <h2 className="text-base font-bold">이벤트</h2>
+                    <div className="border-b-2 border-red-500 w-full"></div>
                 </div>
+                {children}
+            </section>
 
-                <WriteButton onlyAdmin={true} onClick={() => router.push("/main/event/new")} />
-            </div>
+
+
+            <section>
+                <BoardTable<EventPostList>
+                    rows={posts}
+                    columns={columns}
+                    rowKey={(p) => p.id}
+                    cellClass={cellClass}
+                />
+                <div className="flex items-center justify-between mt-4">
+                    <div className="flex-1 flex justify-center">
+                        <Pagination
+                            currentPage={currentPage + 1}
+                            totalPages={totalPages}
+                            onChange={setCurrentPage}
+                            showFirstLast={true}
+                            showPrevNext={true}
+                        />
+                    </div>
+
+                    <WriteButton onlyAdmin={true} onClick={() => router.push("/main/event/new")} />
+                </div>
+            </section>
         </div>
     );
 }

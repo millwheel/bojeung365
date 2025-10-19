@@ -2,35 +2,21 @@
 
 import Login from "@/component/login";
 import Profile from "@/component/profile";
-import {useCallback, useEffect, useState} from "react";
-import {UserProfile} from "@/type/userType";
-import {apiGet} from "@/lib/api";
+import {useMe} from "@/hook/useMe";
 
 export default function AuthBox() {
-    const [me, setMe] = useState<UserProfile | null>(null);
-    const [loading, setLoading] = useState(true);
-
-    const reloadMe = useCallback(async () => {
-        setLoading(true);
-        const { data } = await apiGet<UserProfile>("/me");
-        setMe(data ?? null);
-        setLoading(false);
-    }, []);
-
-    useEffect(() => {
-        reloadMe();
-    }, [reloadMe]);
+    const { me, isLoading, refreshMe } = useMe();
 
     return (
         <div className="h-28 w-full bg-[#212121] border-[0.5px] border-gray-100/20">
-            {loading ? (
+            {isLoading ? (
                 <div className="flex items-center justify-center">
                     <p>로딩 중...</p>
                 </div>
             ) : !me ? (
-                <Login onLoggedIn={reloadMe} />
+                <Login onLoggedIn={refreshMe} />
             ) : (
-                <Profile userProfile={me} onLoggedOut={reloadMe} />
+                <Profile userProfile={me} onLoggedOut={refreshMe} />
             )}
         </div>
     );

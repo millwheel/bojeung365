@@ -1,5 +1,5 @@
 
-export default function ReportPage() {
+export default function EventPage() {
     return (
         <div>
             
