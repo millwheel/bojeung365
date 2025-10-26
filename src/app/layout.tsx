@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import GlobalNavigationBar from "@/component/gnb";
-import LeftNavigationBar from "@/component/lnb";
-import Image from "next/image";
-import {Toaster} from "react-hot-toast";
 import Footer from "@/component/footer";
 
 const geistSans = Geist({
