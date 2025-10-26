@@ -1,8 +1,9 @@
 import axios, { AxiosInstance, AxiosError, AxiosResponse } from "axios";
+import { getAccessToken } from "./tokenStore";
 
 const apiClient: AxiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080",
-    withCredentials: true,
+    withCredentials: false,
     timeout: 10000,
     headers: {
         "Content-Type": "application/json",
@@ -10,6 +11,10 @@ const apiClient: AxiosInstance = axios.create({
 });
 
 apiClient.interceptors.request.use((config) => {
+    const accessToken = getAccessToken();
+    if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+    }
     console.log("[Request]", config.url, config.method);
     return config;
 });

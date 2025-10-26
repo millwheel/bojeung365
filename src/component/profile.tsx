@@ -3,6 +3,7 @@
 import toast from "react-hot-toast";
 import {UserProfile} from "@/type/userType";
 import {apiPost} from "@/lib/api";
+import { clearTokens } from "@/lib/tokenStore";
 
 type ProfileProps = {
     userProfile: UserProfile;
@@ -17,6 +18,10 @@ export default function Profile({ userProfile, onLoggedOut }: ProfileProps) {
             toast.error(`[로그아웃 실패] ${error.message}`);
             return;
         }
+
+        // 토큰 삭제
+        clearTokens();
+
         toast.success("로그아웃 성공!");
         await onLoggedOut?.();
     };

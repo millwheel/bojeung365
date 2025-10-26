@@ -4,6 +4,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useRouter } from "next/navigation";
 import { apiPost } from "@/lib/api";
+import { setTokens, Tokens } from "@/lib/tokenStore";
 
 type LoginProps = {
     className?: string;
@@ -20,7 +21,7 @@ export default function Login({ className, onLoggedIn }: LoginProps) {
         e.preventDefault();
         setPending(true);
 
-        const { error } = await apiPost<void>("/login", { username, password });
+        const { data, error } = await apiPost<Tokens>("/login", { username, password });
 
         setPending(false);
 
@@ -28,6 +29,11 @@ export default function Login({ className, onLoggedIn }: LoginProps) {
             toast.error(`[로그인 실패] ${error.message}`);
             return;
         }
+
+        if (data) {
+            setTokens(data);
+        }
+
         toast.success("로그인 성공!");
         await onLoggedIn?.();
     };
