@@ -19,9 +19,7 @@ export default function Profile({ userProfile, onLoggedOut }: ProfileProps) {
             return;
         }
 
-        // 토큰 삭제
         clearTokens();
-
         toast.success("로그아웃 성공!");
         await onLoggedOut?.();
     };
