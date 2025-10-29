@@ -1,9 +1,7 @@
 const ACCESS_TOKEN_KEY = 'accessToken';
-const REFRESH_TOKEN_KEY = 'refreshToken';
 
 export interface Tokens {
     accessToken: string;
-    refreshToken: string;
     tokenType: string;
 }
 
@@ -12,7 +10,6 @@ export function setTokens(tokens: Tokens): void {
 
     try {
         localStorage.setItem(ACCESS_TOKEN_KEY, tokens.accessToken);
-        localStorage.setItem(REFRESH_TOKEN_KEY, tokens.refreshToken);
     } catch (error) {
         console.error('토큰 저장 실패:', error);
     }
@@ -34,7 +31,6 @@ export function clearTokens(): void {
 
     try {
         localStorage.removeItem(ACCESS_TOKEN_KEY);
-        localStorage.removeItem(REFRESH_TOKEN_KEY);
     } catch (error) {
         console.error('토큰 삭제 실패:', error);
     }
