@@ -20,14 +20,9 @@ const defaultFontSize = '16px';
 
 export default function FontSizeSelector({ editor }: FontSizeSelectorProps) {
 
-    // 최초 렌더 시 14px로 고정
-    useEffect(() => {
-        if (!editor) return;
-        const current = editor.getAttributes('textStyle')?.fontSize as string | undefined;
-        if (!current) {
-            editor.commands.setMark('textStyle', { fontSize: defaultFontSize });
-        }
-    }, [editor]);
+    const currentFontSize =
+        (editor.getAttributes('textStyle')?.fontSize as string | undefined) ||
+        defaultFontSize;
 
     const applyFontSize = (v: string) => {
         editor.chain().focus().setMark('textStyle', { fontSize: v }).run();
@@ -43,6 +38,7 @@ export default function FontSizeSelector({ editor }: FontSizeSelectorProps) {
                   bg-white/90 px-3 text-sm
                   appearance-none
                 "
+                value={currentFontSize}
                 onChange={(e) => applyFontSize(e.target.value)}
                 defaultValue={`${defaultFontSize}`}
             >
