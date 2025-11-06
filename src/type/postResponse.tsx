@@ -23,3 +23,24 @@ export type NoticePostResponse = {
     commentResponses: CommentResponse[];
     richBody: JSONContent;
 };
+
+export type ReviewPostResponse = {
+    id: number;
+    title: string;
+    viewCount: number;
+    author: AuthorResponse;
+    createdAt: string;
+    updatedAt: string;
+    commentResponses: CommentResponse[];
+    siteName: string;
+    siteUrl: string;
+    bettingDate: string; // LocalDate → string
+    bettingAmount: string; // BigDecimal → string
+    dividend: string; // BigDecimal → string
+    winAmount: string; // BigDecimal → string
+    exchangeSpeed: number;
+    dividendRating: number;
+    eventRating: number;
+    reliability: number;
+    body: string;
+};

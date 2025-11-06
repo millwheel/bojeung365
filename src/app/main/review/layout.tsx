@@ -100,7 +100,7 @@ export default function NoiceLayout({ children }: { children: React.ReactNode })
                             showPrevNext={true}
                         />
                     </div>
-                    <WriteButton onlyAdmin={false} onClick={() => router.push("/main/review/new")} />
+                    <WriteButton onlyAdmin={false} href="/main/review/new" />
                 </div>
             </section>
         </div>
