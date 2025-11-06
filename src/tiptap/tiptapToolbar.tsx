@@ -1,7 +1,7 @@
 import {Editor} from "@tiptap/core";
-import TiptapToggleButton from "@/lib/tiptapToggleButton";
+import ToggleButton from "@/tiptap/tiptapToggleButton";
 
-export default function TiptapToolbar({ editor }: { editor: Editor }) {
+export default function Toolbar({ editor }: { editor: Editor }) {
     if (!editor) return null;
 
     const fontSizes = [
@@ -27,25 +27,25 @@ export default function TiptapToolbar({ editor }: { editor: Editor }) {
 
     return (
         <div className="flex flex-wrap items-center gap-2 border border-gray-300 rounded p-2 bg-white text-black">
-            <TiptapToggleButton
+            <ToggleButton
                 active={editor.isActive('bold')}
                 onClick={() => editor.chain().focus().toggleBold().run()}
                 label={<strong>B</strong>}
             />
 
-            <TiptapToggleButton
+            <ToggleButton
                 active={editor.isActive('italic')}
                 onClick={() => editor.chain().focus().toggleItalic().run()}
                 label={<span>I</span>}
             />
 
-            <TiptapToggleButton
+            <ToggleButton
                 active={editor.isActive('strike')}
                 onClick={() => editor.chain().focus().toggleStrike().run()}
                 label={<span style={{ textDecoration: 'line-through' }}>S</span>}
             />
 
-            <TiptapToggleButton
+            <ToggleButton
                 active={editor.isActive('underline')}
                 onClick={() => editor.chain().focus().toggleUnderline().run()}
                 label={<u>U</u>}

@@ -6,7 +6,7 @@ interface EditorToggleButtonProps {
   customStyle?: string;
 }
 
-export default function TiptapToggleButton({
+export default function ToggleButton({
   active,
   onClick,
   label,

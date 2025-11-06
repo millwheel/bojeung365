@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { NoticePostResponse } from "@/type/postResponse";
 import { apiGet } from "@/lib/api";
 import PostFrame from "@/component/postFrame";
+import TipTapViewer from "@/tiptap/tiptapViewer";
 
 export default function NoticePost() {
     const params = useParams<{ id: string }>();
@@ -61,12 +62,10 @@ export default function NoticePost() {
                 viewCount={data.viewCount ?? 0}
                 comments={data.commentResponses}
             >
-                {/* 여기 children 안이 ‘본문 영역’ — 게시판별로 자유롭게 구현 */}
-                <div className="prose prose-invert max-w-none">
-                    <p>
-                        공지 본문 리치 텍스트는 추후 렌더러 연결 예정
-                    </p>
-                </div>
+                <TipTapViewer
+                    value={data.richBody}
+                    className="prose prose-invert max-w-none"
+                />
             </PostFrame>
         </div>
     );

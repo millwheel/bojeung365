@@ -8,7 +8,7 @@ import { StarterKit } from '@tiptap/starter-kit';
 import { Underline } from '@tiptap/extension-underline';
 import { Color } from '@tiptap/extension-color';
 import { TextStyle, FontSize } from '@tiptap/extension-text-style';
-import TiptapToolbar from "@/lib/tiptapToolbar";
+import Toolbar from "@/tiptap/tiptapToolbar";
 
 
 type NoticePostRequest = { title: string; richBody: unknown };
@@ -76,7 +76,7 @@ export default function NewNoticePage() {
             />
 
             {/* Toolbar */}
-            {mounted && editor && <TiptapToolbar editor={editor} />}
+            {mounted && editor && <Toolbar editor={editor} />}
 
             <div className="border border-gray-300 rounded p-2 min-h-[300px] text-black">
                 {mounted && editor && <EditorContent editor={editor} />}

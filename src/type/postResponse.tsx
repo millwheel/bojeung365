@@ -1,3 +1,5 @@
+import { JSONContent } from '@tiptap/core';
+
 export type AuthorResponse = {
     id: number;
     username: string;
@@ -19,5 +21,5 @@ export type NoticePostResponse = {
     createdAt: string;
     updatedAt: string;
     commentResponses: CommentResponse[];
-    richBody: unknown;
+    richBody: JSONContent;
 };
