@@ -3,6 +3,8 @@
 import {Editor} from "@tiptap/core";
 import ToggleButton from "@/tiptap/tiptapToggleButton";
 import {useEffect, useState} from "react";
+import ColorPicker from "@/tiptap/tiptapColorPicker";
+import FontSizeSelector from "./tiptapFontSizeSelector";
 
 const fontSizes = [
     { label: '기본', value: '' },
@@ -74,27 +76,8 @@ export default function Toolbar({ editor }: { editor: Editor }) {
 
             <div className="h-6 w-px bg-gray-300 mx-1" />
 
-            <select
-                className="border rounded px-2 py-1 text-sm border-grat-300"
-                onChange={(e) => applyFontSize(e.target.value)}
-                defaultValue=""
-            >
-                {fontSizes.map((fs) => (
-                    <option key={fs.label} value={fs.value}>
-                        {fs.label}{fs.value ? 'px' : ''}
-                    </option>
-                ))}
-            </select>
-
-            <input
-                type="color"
-                className="w-8 h-8 p-0 border rounded border-grat-300"
-                value={currentColor}
-                onChange={(e) =>
-                    editor.chain().focus().setColor(e.target.value).run()
-                }
-                title="글자색"
-            />
+            <FontSizeSelector editor={editor} />
+            <ColorPicker editor={editor} />
 
             <div className="h-6 w-px bg-gray-300 mx-1" />
         </div>
