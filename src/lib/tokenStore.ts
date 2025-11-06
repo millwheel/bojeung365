@@ -35,3 +35,14 @@ export function clearTokens(): void {
         console.error('토큰 삭제 실패:', error);
     }
 }
+
+export function isTokenExpired(token: string): boolean {
+    try {
+        const payload = JSON.parse(atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
+        const exp = payload?.exp; // seconds
+        if (!exp) return false;
+        return Date.now() >= exp * 1000;
+    } catch {
+        return false;
+    }
+}

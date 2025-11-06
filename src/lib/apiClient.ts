@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosError, AxiosResponse } from "axios";
-import { getAccessToken } from "./tokenStore";
+import {clearTokens, getAccessToken, isTokenExpired} from "./tokenStore";
 
 const apiClient: AxiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080",
@@ -13,6 +13,14 @@ const apiClient: AxiosInstance = axios.create({
 apiClient.interceptors.request.use((config) => {
     const accessToken = getAccessToken();
     if (accessToken) {
+        if (isTokenExpired(accessToken)) {
+            clearTokens();
+            if (typeof window !== "undefined") {
+                window.location.href = "/login?reason=expired";
+            }
+            // 진행 중인 요청은 취소
+            return Promise.reject(new axios.Cancel("access token expired"));
+        }
         config.headers.Authorization = `Bearer ${accessToken}`;
     }
     console.log("[Request]", config.url, config.method);
@@ -31,7 +39,7 @@ apiClient.interceptors.response.use(
         } else if (error.response?.status === 500) {
             console.error("서버 내부 오류:", error.message);
         }
-        return Promise.reject(error); // 예외를 다시 던짐
+        return Promise.reject(error);
     }
 );
 
