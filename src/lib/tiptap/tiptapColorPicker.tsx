@@ -8,7 +8,7 @@ interface ColorPickerProps {
 
 export default function ColorPicker({ editor }: ColorPickerProps) {
     const currentColor =
-        (editor.getAttributes('textStyle')?.color as string | undefined) ?? '#000000';
+        (editor.getAttributes('textStyle')?.color as string) ?? '#000000';
 
     return (
         <input
