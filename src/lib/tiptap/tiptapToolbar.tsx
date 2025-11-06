@@ -5,7 +5,7 @@ import ToggleButton from "@/lib/tiptap/tiptapFontStyleButton";
 import {useEffect, useState} from "react";
 import ColorPicker from "@/lib/tiptap/tiptapColorPicker";
 import FontSizeSelector from "./tiptapFontSizeSelector";
-import {AlignCenter, AlignJustify, AlignLeft, AlignRight, RotateCcw} from "lucide-react";
+import {AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Italic, RotateCcw, Strikethrough, Underline} from "lucide-react";
 
 export default function Toolbar({ editor }: { editor: Editor }) {
     const [, forceUpdate] = useState(0);
@@ -33,25 +33,25 @@ export default function Toolbar({ editor }: { editor: Editor }) {
             <ToggleButton
                 active={editor.isActive('bold')}
                 onClick={() => editor.chain().focus().toggleBold().run()}
-                label={<strong>B</strong>}
+                label={<Bold className="w-4 h-4" />}
             />
 
             <ToggleButton
                 active={editor.isActive('italic')}
                 onClick={() => editor.chain().focus().toggleItalic().run()}
-                label={<span>I</span>}
+                label={<Italic className="w-4 h-4" />}
             />
 
             <ToggleButton
                 active={editor.isActive('strike')}
                 onClick={() => editor.chain().focus().toggleStrike().run()}
-                label={<span style={{ textDecoration: 'line-through' }}>S</span>}
+                label={<Strikethrough className="w-4 h-4" />}
             />
 
             <ToggleButton
                 active={editor.isActive('underline')}
                 onClick={() => editor.chain().focus().toggleUnderline().run()}
-                label={<u>U</u>}
+                label={<Underline className="w-4 h-4" />}
             />
 
             <div className="h-6 w-px bg-gray-300 mx-1" />
