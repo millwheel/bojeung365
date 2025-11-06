@@ -1,18 +1,39 @@
+"use client"
+
 import {Editor} from "@tiptap/core";
 import ToggleButton from "@/tiptap/tiptapToggleButton";
+import {useEffect, useState} from "react";
+
+const fontSizes = [
+    { label: '기본', value: '' },
+    { label: '12', value: '12px' },
+    { label: '14', value: '14px' },
+    { label: '16', value: '16px' },
+    { label: '18', value: '18px' },
+    { label: '20', value: '20px' },
+    { label: '24', value: '24px' },
+];
 
 export default function Toolbar({ editor }: { editor: Editor }) {
-    if (!editor) return null;
+    const [, forceUpdate] = useState(0);
 
-    const fontSizes = [
-        { label: '기본', value: '' },
-        { label: '12', value: '12px' },
-        { label: '14', value: '14px' },
-        { label: '16', value: '16px' },
-        { label: '18', value: '18px' },
-        { label: '20', value: '20px' },
-        { label: '24', value: '24px' },
-    ];
+    useEffect(() => {
+        if (!editor) return;
+
+        const rerender = () => forceUpdate(v => v + 1);
+
+        editor.on('transaction', rerender);
+        editor.on('selectionUpdate', rerender);
+        editor.on('update', rerender);
+
+        return () => {
+            editor.off('transaction', rerender);
+            editor.off('selectionUpdate', rerender);
+            editor.off('update', rerender);
+        };
+    }, [editor]);
+
+    if (!editor) return null;
 
     const applyFontSize = (v: string) => {
         if (!v) {

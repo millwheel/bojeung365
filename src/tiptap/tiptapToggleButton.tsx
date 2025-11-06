@@ -16,7 +16,7 @@ export default function ToggleButton({
     <button
       type="button"
       onClick={onClick}
-      className={`px-2 py-1 rounded border border-gray-400 transition-colors hover:bg-gray-50 cursor-pointer ${
+      className={`px-2 py-1 rounded border border-gray-400 transition-colors  cursor-pointer ${
         active ? 'bg-gray-900 text-white' : 'bg-white text-gray-800'
       } ${customStyle}`}
     >
