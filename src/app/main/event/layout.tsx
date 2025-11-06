@@ -5,7 +5,6 @@ import BoardTable, {Column} from "@/component/boardTable";
 import {BoardResponse, EventPostList} from "@/type/boardResponse";
 import Pagination from "@/component/pagination";
 import WriteButton from "@/component/writeButton";
-import {router} from "next/client";
 import {useCallback, useEffect, useState} from "react";
 import {apiGet} from "@/lib/api";
 import toast from "react-hot-toast";
@@ -26,7 +25,7 @@ export default function NoiceLayout({ children }: { children: React.ReactNode })
         );
 
         if (error) {
-            toast.error(`[이용후기 불러오기 실패] ${error.message}`);
+            toast.error(`[이벤트 불러오기 실패] ${error.message}`);
         } else if (data) {
             setPosts(data.content ?? []);
             setTotalPages(data.totalPages ?? 0);
