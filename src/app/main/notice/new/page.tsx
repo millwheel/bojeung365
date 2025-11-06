@@ -8,7 +8,8 @@ import { StarterKit } from '@tiptap/starter-kit';
 import { Underline } from '@tiptap/extension-underline';
 import { Color } from '@tiptap/extension-color';
 import { TextStyle, FontSize } from '@tiptap/extension-text-style';
-import Toolbar from "@/tiptap/tiptapToolbar";
+import { TextAlign } from '@tiptap/extension-text-align';
+import Toolbar from "@/lib/tiptap/tiptapToolbar";
 import {NoticePostRequest} from "@/type/postRequest";
 
 export default function NewNoticePage() {
@@ -29,6 +30,9 @@ export default function NewNoticePage() {
             }),
             FontSize.configure({
                 types: ['textStyle']
+            }),
+            TextAlign.configure({
+                types: ['paragraph'],
             }),
         ],
         content: '',

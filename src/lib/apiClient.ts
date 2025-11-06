@@ -15,10 +15,6 @@ apiClient.interceptors.request.use((config) => {
     if (accessToken) {
         if (isTokenExpired(accessToken)) {
             clearTokens();
-            if (typeof window !== "undefined") {
-                window.location.href = "/login?reason=expired";
-            }
-            // 진행 중인 요청은 취소
             return Promise.reject(new axios.Cancel("access token expired"));
         }
         config.headers.Authorization = `Bearer ${accessToken}`;
@@ -36,6 +32,7 @@ apiClient.interceptors.response.use(
         if (error.response?.status === 401) {
             console.warn(error.response?.data);
             console.warn("인증 없음.");
+            clearTokens();
         } else if (error.response?.status === 500) {
             console.error("서버 내부 오류:", error.message);
         }

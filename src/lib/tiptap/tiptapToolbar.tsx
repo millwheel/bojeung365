@@ -1,20 +1,11 @@
 "use client"
 
 import {Editor} from "@tiptap/core";
-import ToggleButton from "@/tiptap/tiptapToggleButton";
+import ToggleButton from "@/lib/tiptap/tiptapFontStyleButton";
 import {useEffect, useState} from "react";
-import ColorPicker from "@/tiptap/tiptapColorPicker";
+import ColorPicker from "@/lib/tiptap/tiptapColorPicker";
 import FontSizeSelector from "./tiptapFontSizeSelector";
-
-const fontSizes = [
-    { label: '기본', value: '' },
-    { label: '12', value: '12px' },
-    { label: '14', value: '14px' },
-    { label: '16', value: '16px' },
-    { label: '18', value: '18px' },
-    { label: '20', value: '20px' },
-    { label: '24', value: '24px' },
-];
+import {AlignCenter, AlignJustify, AlignLeft, AlignRight, RotateCcw} from "lucide-react";
 
 export default function Toolbar({ editor }: { editor: Editor }) {
     const [, forceUpdate] = useState(0);
@@ -36,17 +27,6 @@ export default function Toolbar({ editor }: { editor: Editor }) {
     }, [editor]);
 
     if (!editor) return null;
-
-    const applyFontSize = (v: string) => {
-        if (!v) {
-            editor.chain().focus().unsetMark('textStyle').run();
-            return;
-        }
-        editor.chain().focus().setMark('textStyle', { fontSize: v }).run();
-    };
-
-    const currentColor =
-        (editor.getAttributes('textStyle')?.color as string | undefined) ?? '#000000';
 
     return (
         <div className="flex flex-wrap items-center gap-2 border border-gray-300 rounded p-2 bg-white text-black">
@@ -78,6 +58,38 @@ export default function Toolbar({ editor }: { editor: Editor }) {
 
             <FontSizeSelector editor={editor} />
             <ColorPicker editor={editor} />
+
+            <div className="h-6 w-px bg-gray-300 mx-1" />
+
+            <ToggleButton
+                active={editor.isActive({ textAlign: 'left' })}
+                onClick={() => editor.chain().focus().setTextAlign('left').run()}
+                label={<AlignLeft className="w-4 h-4" />}
+            />
+
+            <ToggleButton
+                active={editor.isActive({ textAlign: 'center' })}
+                onClick={() => editor.commands.setTextAlign('center')}
+                label={<AlignCenter className="w-4 h-4" />}
+            />
+
+            <ToggleButton
+                active={editor.isActive({ textAlign: 'right' })}
+                onClick={() => editor.chain().focus().setTextAlign('right').run()}
+                label={<AlignRight className="w-4 h-4" />}
+            />
+
+            <ToggleButton
+                active={editor.isActive({ textAlign: 'justify' })}
+                onClick={() => editor.chain().focus().setTextAlign('justify').run()}
+                label={<AlignJustify className="w-4 h-4" />}
+            />
+
+            <ToggleButton
+                active={false}
+                onClick={() => editor.chain().focus().unsetTextAlign().run()}
+                label={<RotateCcw className="w-4 h-4" />}
+            />
 
             <div className="h-6 w-px bg-gray-300 mx-1" />
         </div>
