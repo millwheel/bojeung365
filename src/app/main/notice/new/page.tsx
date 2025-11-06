@@ -9,9 +9,7 @@ import { Underline } from '@tiptap/extension-underline';
 import { Color } from '@tiptap/extension-color';
 import { TextStyle, FontSize } from '@tiptap/extension-text-style';
 import Toolbar from "@/tiptap/tiptapToolbar";
-
-
-type NoticePostRequest = { title: string; richBody: unknown };
+import {NoticePostRequest} from "@/type/postRequest";
 
 export default function NewNoticePage() {
     const [title, setTitle] = useState('');
@@ -75,7 +73,6 @@ export default function NewNoticePage() {
                 className="w-full border border-gray-300 rounded p-2 text-black"
             />
 
-            {/* Toolbar */}
             {mounted && editor && <Toolbar editor={editor} />}
 
             <div className="border border-gray-300 rounded p-2 min-h-[300px] text-black">
