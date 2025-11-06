@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { NoticePostResponse } from "@/type/postResponse";
 import { apiGet } from "@/lib/api";
 import PostFrame from "@/component/postFrame";
+import TipTapViewer from "@/lib/tiptap/tiptapViewer";
 
 export default function NoticePost() {
     const params = useParams<{ id: string }>();
@@ -38,16 +39,16 @@ export default function NoticePost() {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center h-40">
-                <p className="text-white/70">불러오는 중…</p>
+            <div className="flex items-center justify-center h-96 bg-white">
+                <p className="text-black">불러오는 중…</p>
             </div>
         );
     }
 
     if (!data) {
         return (
-            <div className="flex items-center justify-center h-40">
-                <p className="text-white/60">게시글을 찾을 수 없습니다.</p>
+            <div className="flex items-center justify-center h-96 bg-white">
+                <p className="text-black">게시글을 찾을 수 없습니다.</p>
             </div>
         );
     }
@@ -61,12 +62,10 @@ export default function NoticePost() {
                 viewCount={data.viewCount ?? 0}
                 comments={data.commentResponses}
             >
-                {/* 여기 children 안이 ‘본문 영역’ — 게시판별로 자유롭게 구현 */}
-                <div className="prose prose-invert max-w-none">
-                    <p>
-                        공지 본문 리치 텍스트는 추후 렌더러 연결 예정
-                    </p>
-                </div>
+                <TipTapViewer
+                    value={data.richBody}
+                    className="prose prose-invert max-w-none"
+                />
             </PostFrame>
         </div>
     );

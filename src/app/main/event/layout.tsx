@@ -102,7 +102,7 @@ export default function NoiceLayout({ children }: { children: React.ReactNode })
                         />
                     </div>
 
-                    <WriteButton onlyAdmin={true} onClick={() => router.push("/main/event/new")} />
+                    <WriteButton onlyAdmin={true} href="/main/event/new" />
                 </div>
             </section>
         </div>
