@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { apiPost } from "@/lib/api";
+import {useRouter} from "next/navigation";
 
 type NoticePostRequest = { title: string; richBody: unknown };
 
@@ -11,14 +12,14 @@ export default function NewNoticePage() {
     const [title, setTitle] = useState('');
     const [saving, setSaving] = useState(false);
     const [mounted, setMounted] = useState(false);
+    const router = useRouter();
 
     // 클라이언트 마운트 플래그
     useEffect(() => setMounted(true), []);
 
     const editor = useEditor({
         extensions: [StarterKit],
-        content: '<p>공지 내용을 입력하세요</p>',
-        // SSR 즉시 렌더 금지 (하이드레이션 미스매치 방지)
+        content: '',
         immediatelyRender: false,
     });
 
@@ -31,12 +32,12 @@ export default function NewNoticePage() {
                 title: title.trim(),
                 richBody: editor.getJSON(),
             };
-            const { error } = await apiPost<void>('/api/notices', payload);
+            const { error } = await apiPost<void>('/posts/notice', payload);
             if (error) {
                 alert(`저장 실패: ${error.message}`);
                 return;
             }
-            alert('저장 완료!');
+            router.replace('/main/notice');
         } finally {
             setSaving(false);
         }
@@ -44,7 +45,7 @@ export default function NewNoticePage() {
 
     return (
         <div className="max-w-4xl mx-auto p-6 space-y-6">
-            <h1 className="text-2xl font-bold mb-4">새 공지 작성</h1>
+            <h1 className="text-md md:text-xl font-bold mb-4">새 글 작성</h1>
 
             <input
                 type="text"
