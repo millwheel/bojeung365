@@ -5,7 +5,6 @@ import BoardTable, {Column} from "@/component/boardTable";
 import {BoardResponse, NoticePostList} from "@/type/boardResponse";
 import Pagination from "@/component/pagination";
 import WriteButton from "@/component/writeButton";
-import {router} from "next/client";
 import {useCallback, useEffect, useState} from "react";
 import {apiGet} from "@/lib/api";
 import toast from "react-hot-toast";
@@ -100,7 +99,7 @@ export default function NoiceLayout({ children }: { children: React.ReactNode })
                         />
                     </div>
 
-                    <WriteButton onlyAdmin={true} onClick={() => router.push("/main/notice/new")} />
+                    <WriteButton onlyAdmin={true} href="/main/notice/new" />
                 </div>
             </section>
         </div>
