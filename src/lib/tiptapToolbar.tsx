@@ -1,7 +1,7 @@
 import {Editor} from "@tiptap/core";
-import ToggleButton from "@/lib/tiptapToggleButton";
+import TiptapToggleButton from "@/lib/tiptapToggleButton";
 
-export default function Toolbar({ editor }: { editor: Editor }) {
+export default function TiptapToolbar({ editor }: { editor: Editor }) {
     if (!editor) return null;
 
     const fontSizes = [
@@ -27,25 +27,25 @@ export default function Toolbar({ editor }: { editor: Editor }) {
 
     return (
         <div className="flex flex-wrap items-center gap-2 border border-gray-300 rounded p-2 bg-white text-black">
-            <ToggleButton
+            <TiptapToggleButton
                 active={editor.isActive('bold')}
                 onClick={() => editor.chain().focus().toggleBold().run()}
                 label={<strong>B</strong>}
             />
 
-            <ToggleButton
+            <TiptapToggleButton
                 active={editor.isActive('italic')}
                 onClick={() => editor.chain().focus().toggleItalic().run()}
                 label={<span>I</span>}
             />
 
-            <ToggleButton
+            <TiptapToggleButton
                 active={editor.isActive('strike')}
                 onClick={() => editor.chain().focus().toggleStrike().run()}
                 label={<span style={{ textDecoration: 'line-through' }}>S</span>}
             />
 
-            <ToggleButton
+            <TiptapToggleButton
                 active={editor.isActive('underline')}
                 onClick={() => editor.chain().focus().toggleUnderline().run()}
                 label={<u>U</u>}
@@ -54,20 +54,20 @@ export default function Toolbar({ editor }: { editor: Editor }) {
             <div className="h-6 w-px bg-gray-300 mx-1" />
 
             <select
-                className="border rounded px-2 py-1 text-sm"
+                className="border rounded px-2 py-1 text-sm border-grat-300"
                 onChange={(e) => applyFontSize(e.target.value)}
                 defaultValue=""
             >
                 {fontSizes.map((fs) => (
                     <option key={fs.label} value={fs.value}>
-                        글자 {fs.label}{fs.value ? 'px' : ''}
+                        {fs.label}{fs.value ? 'px' : ''}
                     </option>
                 ))}
             </select>
 
             <input
                 type="color"
-                className="w-8 h-8 p-0 border rounded"
+                className="w-8 h-8 p-0 border rounded border-grat-300"
                 value={currentColor}
                 onChange={(e) =>
                     editor.chain().focus().setColor(e.target.value).run()

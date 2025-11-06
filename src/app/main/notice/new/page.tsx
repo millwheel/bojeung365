@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react';
 import { EditorContent, useEditor } from '@tiptap/react';
 import { apiPost } from "@/lib/api";
 import {useRouter} from "next/navigation";
-import StarterKit from '@tiptap/starter-kit';
-import Underline from '@tiptap/extension-underline';
-import TextStyle from '@tiptap/extension-text-style';
-import Color from '@tiptap/extension-color';
-import Toolbar from "@/lib/tiptapToolbar";
+import { StarterKit } from '@tiptap/starter-kit';
+import { Underline } from '@tiptap/extension-underline';
+import { Color } from '@tiptap/extension-color';
+import { TextStyle, FontSize } from '@tiptap/extension-text-style';
+import TiptapToolbar from "@/lib/tiptapToolbar";
 
 
 type NoticePostRequest = { title: string; richBody: unknown };
@@ -23,13 +23,14 @@ export default function NewNoticePage() {
 
     const editor = useEditor({
         extensions: [
-            StarterKit.configure({
-                // 필요 시 codeBlock, blockquote 등 끄거나 옵션 조정 가능
-            }),
+            StarterKit.configure({}),
             Underline,
             TextStyle,
             Color.configure({
-                types: ['textStyle'], // 글자색을 textStyle에 적용
+                types: ['textStyle'],
+            }),
+            FontSize.configure({
+                types: ['textStyle']
             }),
         ],
         content: '',
@@ -75,7 +76,7 @@ export default function NewNoticePage() {
             />
 
             {/* Toolbar */}
-            {mounted && editor && <Toolbar editor={editor} />}
+            {mounted && editor && <TiptapToolbar editor={editor} />}
 
             <div className="border border-gray-300 rounded p-2 min-h-[300px] text-black">
                 {mounted && editor && <EditorContent editor={editor} />}
