@@ -39,16 +39,16 @@ export default function NoticePost() {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center h-40">
-                <p className="text-white/70">불러오는 중…</p>
+            <div className="flex items-center justify-center h-96 bg-white">
+                <p className="text-black">불러오는 중…</p>
             </div>
         );
     }
 
     if (!data) {
         return (
-            <div className="flex items-center justify-center h-40">
-                <p className="text-white/60">게시글을 찾을 수 없습니다.</p>
+            <div className="flex items-center justify-center h-96 bg-white">
+                <p className="text-black">게시글을 찾을 수 없습니다.</p>
             </div>
         );
     }
