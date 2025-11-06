@@ -14,7 +14,6 @@ export default function NewNoticePage() {
     const [mounted, setMounted] = useState(false);
     const router = useRouter();
 
-    // 클라이언트 마운트 플래그
     useEffect(() => setMounted(true), []);
 
     const editor = useEditor({
@@ -44,18 +43,18 @@ export default function NewNoticePage() {
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-6 space-y-6">
-            <h1 className="text-md md:text-xl font-bold mb-4">새 글 작성</h1>
+        <div className="max-w-4xl mx-auto p-6 space-y-6 bg-white">
+            <h1 className="text-md md:text-xl font-bold mb-4 text-black">새 글 작성</h1>
 
             <input
                 type="text"
                 placeholder="제목을 입력하세요"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full border border-gray-300 rounded p-2"
+                className="w-full border border-gray-300 rounded p-2 text-black"
             />
 
-            <div className="border border-gray-300 rounded p-2 min-h-[300px]">
+            <div className="border border-gray-300 rounded p-2 min-h-[300px] text-black">
                 {mounted && editor && <EditorContent editor={editor} />}
             </div>
 
