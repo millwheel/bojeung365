@@ -2,9 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import { EditorContent, useEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
 import { apiPost } from "@/lib/api";
 import {useRouter} from "next/navigation";
+import StarterKit from '@tiptap/starter-kit';
+import Underline from '@tiptap/extension-underline';
+import TextStyle from '@tiptap/extension-text-style';
+import Color from '@tiptap/extension-color';
+import Toolbar from "@/lib/tiptapToolbar";
+
 
 type NoticePostRequest = { title: string; richBody: unknown };
 
@@ -17,9 +22,24 @@ export default function NewNoticePage() {
     useEffect(() => setMounted(true), []);
 
     const editor = useEditor({
-        extensions: [StarterKit],
+        extensions: [
+            StarterKit.configure({
+                // 필요 시 codeBlock, blockquote 등 끄거나 옵션 조정 가능
+            }),
+            Underline,
+            TextStyle,
+            Color.configure({
+                types: ['textStyle'], // 글자색을 textStyle에 적용
+            }),
+        ],
         content: '',
         immediatelyRender: false,
+        editorProps: {
+            attributes: {
+                class:
+                    'prose prose-sm sm:prose max-w-none focus:outline-none min-h-[280px] text-black',
+            },
+        },
     });
 
     const handleSubmit = async () => {
@@ -54,17 +74,23 @@ export default function NewNoticePage() {
                 className="w-full border border-gray-300 rounded p-2 text-black"
             />
 
+            {/* Toolbar */}
+            {mounted && editor && <Toolbar editor={editor} />}
+
             <div className="border border-gray-300 rounded p-2 min-h-[300px] text-black">
                 {mounted && editor && <EditorContent editor={editor} />}
             </div>
 
-            <button
-                onClick={handleSubmit}
-                disabled={saving}
-                className="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-4 py-2 rounded"
-            >
-                {saving ? '저장 중...' : '저장하기'}
-            </button>
+            <div className="flex justify-end">
+                <button
+                    onClick={handleSubmit}
+                    disabled={saving}
+                    className="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-4 py-2 rounded cursor-pointer"
+                >
+                    {saving ? '저장 중...' : '저장하기'}
+                </button>
+            </div>
+
         </div>
     );
 }
