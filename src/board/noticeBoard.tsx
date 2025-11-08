@@ -9,19 +9,18 @@ import {BoardResponse, NoticePostList} from "@/type/boardResponse";
 import toast from "react-hot-toast";
 import BoardTable, { Column } from "@/component/boardTable";
 import WriteButton from "@/component/writeButton";
-import Image from "next/image";
 
 const cellClass = "px-3 py-2 text-center text-gray-700";
 
 export default function NoticeBoard() {
     const [posts, setPosts] = useState<NoticePostList[]>([]);
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     const loadPosts = useCallback(async () => {
 
         const { data, error } = await apiGet<BoardResponse<NoticePostList>>(
-            `/posts/notice?page=${currentPage}`
+            `/posts/notice?page=${currentPage - 1}`
         );
 
         if (error) {
@@ -80,7 +79,7 @@ export default function NoticeBoard() {
             <div className="flex items-center justify-between mt-4">
                 <div className="flex-1 flex justify-center">
                     <Pagination
-                        currentPage={currentPage + 1}
+                        currentPage={currentPage}
                         totalPages={totalPages}
                         onChange={setCurrentPage}
                         showFirstLast={true}
