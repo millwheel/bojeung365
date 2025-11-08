@@ -83,11 +83,14 @@ export default function NoticePost() {
     return (
         <div className="w-full flex flex-col gap-3">
             <PostFrame
+                id={data.id}
+                category="review"
                 title={data.title}
                 authorNickname={data.author?.nickname}
                 createdAt={data.createdAt}
                 viewCount={data.viewCount ?? 0}
                 comments={data.commentResponses}
+                editable={data.editable}
             >
                 {/* 상단: 사이트 정보 */}
                 <div className="rounded-md border bg-gray-50 p-4">

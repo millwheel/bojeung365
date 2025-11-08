@@ -57,11 +57,14 @@ export default function EventPost() {
     return (
         <div className="w-full flex flex-col gap-3">
             <PostFrame
+                id={data.id}
+                category="event"
                 title={data.title}
                 authorNickname={data.author?.nickname}
                 createdAt={data.createdAt}
                 viewCount={data.viewCount ?? 0}
                 comments={data.commentResponses}
+                editable={data.editable}
             >
                 <TipTapViewer
                     value={data.richBody}
