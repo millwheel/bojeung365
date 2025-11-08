@@ -1,12 +1,22 @@
 'use client';
 
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { apiPost } from "@/lib/api";
 import {clearTokens} from "@/lib/tokenStore";
+import {useMe} from "@/hook/useMe";
 
 export default function PasswordChangePage() {
+    const router = useRouter();
+    const { me, isLoading, refreshMe } = useMe();
+
+    useEffect(() => {
+        if (!isLoading && !me) {
+            router.replace('/');
+        }
+    }, [isLoading, me, router]);
+
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -18,7 +28,6 @@ export default function PasswordChangePage() {
         confirmPassword?: string;
     }>({});
 
-    const router = useRouter();
 
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -51,10 +60,19 @@ export default function PasswordChangePage() {
             return;
         }
 
+        refreshMe?.();
         clearTokens();
         toast.success("비밀번호가 변경되었습니다. 다시 로그인해주세요.");
         router.push("/");
     };
+
+    if (isLoading || !me) {
+        return (
+            <div className="min-h-[40vh] flex items-center justify-center bg-[#212121] text-white">
+                로딩 중...
+            </div>
+        );
+    }
 
     return (
         <div className="flex justify-center items-center bg-[#212121] min-h-screen">
