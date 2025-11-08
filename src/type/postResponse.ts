@@ -24,6 +24,17 @@ export type NoticePostResponse = {
     richBody: JSONContent;
 };
 
+export type EventPostResponse = {
+    id: number;
+    title: string;
+    viewCount: number;
+    author: AuthorResponse;
+    createdAt: string;
+    updatedAt: string;
+    commentResponses: CommentResponse[];
+    richBody: JSONContent;
+};
+
 export type ReviewPostResponse = {
     id: number;
     title: string;
