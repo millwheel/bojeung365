@@ -9,7 +9,6 @@ import {BoardResponse, NoticePostList} from "@/type/boardResponse";
 import toast from "react-hot-toast";
 import BoardTable, { Column } from "@/component/boardTable";
 import WriteButton from "@/component/writeButton";
-import {router} from "next/client";
 
 const cellClass = "px-3 py-2 text-center text-gray-700";
 
@@ -87,7 +86,7 @@ export default function NoticeBoard() {
                     />
                 </div>
 
-                <WriteButton onlyAdmin={true} onClick={() => router.push("/main/notice/new")} />
+                <WriteButton onlyAdmin={true} href="/main/notice/new" />
             </div>
         </div>
     );

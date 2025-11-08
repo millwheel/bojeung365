@@ -9,7 +9,6 @@ import { apiGet } from "@/lib/api";
 import toast from "react-hot-toast";
 import BoardTable, { Column } from "@/component/boardTable";
 import WriteButton from "@/component/writeButton";
-import {router} from "next/client";
 
 const cellClass = "px-3 py-2 text-center text-gray-700";
 const numberFormat = new Intl.NumberFormat("ko-KR");
@@ -88,7 +87,7 @@ export default function EventBoard() {
                     />
                 </div>
 
-                <WriteButton onlyAdmin={true} onClick={() => router.push("/main/event/new")} />
+                <WriteButton onlyAdmin={true} href="/main/event/new" />
             </div>
         </div>
     );
