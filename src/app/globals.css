@@ -17,3 +17,28 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.ProseMirror img {
+  display: block;
+  max-width: 100%;
+}
+
+.ProseMirror img[style*="text-align: center"] {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ProseMirror img[style*="text-align: right"] {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.ProseMirror img[style*="text-align: left"] {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.ProseMirror img[style*="text-align: justify"] {
+  margin-left: auto;
+  margin-right: auto;
+}

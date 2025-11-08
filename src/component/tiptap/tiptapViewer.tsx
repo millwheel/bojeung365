@@ -28,7 +28,7 @@ export default function TipTapViewer({ value }: TipTapViewerProps) {
             Color,
             FontSize.configure({ types: ['textStyle'] }),
             TextAlign.configure({
-                types: ['paragraph', 'heading'],
+                types: ['paragraph', 'image'],
             }),
             Image.configure({
                 HTMLAttributes: { loading: 'lazy', decoding: 'async' },

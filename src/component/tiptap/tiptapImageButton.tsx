@@ -28,6 +28,7 @@ export default function TiptapImageButton({ editor, category }: { editor: Editor
                 .chain()
                 .focus()
                 .setImage({ src: data.publicUrl, alt: data.originalFilename })
+                .setTextAlign('center')
                 .run();
         } finally {
             setUploading(false);
