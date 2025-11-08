@@ -64,7 +64,7 @@ export default function NoticePost() {
             >
                 <TipTapViewer
                     value={data.richBody}
-                    className="prose prose-invert max-w-none"
+                    className=""
                 />
             </PostFrame>
         </div>

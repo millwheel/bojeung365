@@ -2,11 +2,12 @@
 
 import { useEffect, useMemo } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
-import {StarterKit} from "@tiptap/starter-kit";
-import Underline from '@tiptap/extension-underline';
-import {FontSize, TextStyle} from "@tiptap/extension-text-style";
-import { Color } from '@tiptap/extension-text-style';
 import { JSONContent } from '@tiptap/core';
+import { StarterKit } from "@tiptap/starter-kit";
+import { Underline } from '@tiptap/extension-underline';
+import { FontSize, TextStyle } from "@tiptap/extension-text-style";
+import { Color } from '@tiptap/extension-text-style';
+import TextAlign from "@tiptap/extension-text-align";
 
 interface TipTapViewerProps {
     value: JSONContent;
@@ -21,13 +22,14 @@ export default function TipTapViewer({ value, className }: TipTapViewerProps) {
 
     const editor = useEditor({
         extensions: [
-            StarterKit.configure({
-
-            }),
+            StarterKit,
             Underline,
             TextStyle,
             Color,
-            FontSize,
+            FontSize.configure({ types: ['textStyle'] }),
+            TextAlign.configure({
+                types: ['paragraph', 'heading'],
+            }),
         ],
         content,
         editable: false,

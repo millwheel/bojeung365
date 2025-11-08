@@ -1,7 +1,6 @@
 'use client';
 
 import { Editor } from '@tiptap/core';
-import {useEffect} from "react";
 
 interface FontSizeSelectorProps {
     editor: Editor;
