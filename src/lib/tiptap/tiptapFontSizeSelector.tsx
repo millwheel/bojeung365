@@ -40,7 +40,6 @@ export default function FontSizeSelector({ editor }: FontSizeSelectorProps) {
                 "
                 value={currentFontSize}
                 onChange={(e) => applyFontSize(e.target.value)}
-                defaultValue={`${defaultFontSize}`}
             >
                 {fontSizes.map((fs) => (
                     <option key={fs.value} value={fs.value}>
