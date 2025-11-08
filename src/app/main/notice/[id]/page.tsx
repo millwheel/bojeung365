@@ -2,7 +2,7 @@
 
 import toast from "react-hot-toast";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import { NoticePostResponse } from "@/type/postResponse";
 import { apiGet } from "@/lib/api";
 import PostFrame from "@/component/postFrame";

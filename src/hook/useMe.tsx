@@ -8,7 +8,7 @@ export function useMe() {
     const query = useQuery({
         queryKey: ["me"],
         queryFn: async () => {
-            const { data } = await apiGet<UserProfile>("/me");
+            const { data } = await apiGet<UserProfile>("/user/me");
             return data ?? null;
         },
         staleTime: 5 * 60 * 1000,

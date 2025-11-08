@@ -3,7 +3,7 @@
 import {useEffect, useState} from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
-import { apiPost } from "@/lib/api";
+import {apiPut} from "@/lib/api";
 import {clearTokens} from "@/lib/tokenStore";
 import {useMe} from "@/hook/useMe";
 
@@ -48,7 +48,7 @@ export default function PasswordChangePage() {
         setErrors({});
         setPending(true);
 
-        const { error } = await apiPost<void>("/me/change-password", {
+        const { error } = await apiPut<void>("/user/password", {
             currentPassword,
             newPassword
         });
