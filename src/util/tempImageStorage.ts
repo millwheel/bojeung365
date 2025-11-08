@@ -15,11 +15,6 @@ export class TempImageStorage {
         return this.map.get(objectUrl);
     }
 
-    /** 현재 저장된 모든 항목 반환 */
-    all(): TempImageEntry[] {
-        return Array.from(this.map.values());
-    }
-
     /** 업로드 완료/삭제 등으로 더이상 필요없는 객체 제거 + URL 해제 */
     remove(objectUrl: string) {
         const it = this.map.get(objectUrl);

@@ -5,11 +5,9 @@ import { EditorContent } from '@tiptap/react';
 import { apiPost } from "@/lib/api";
 import {useRouter} from "next/navigation";
 import Toolbar from "@/component/tiptap/tiptapToolbar";
-import {NoticePostRequest} from "@/type/postRequest";
 import {useDefaultTipTapEditor} from "@/component/tiptap/useDefaultTipTapEditor";
 import { TempImageStorage } from '@/util/tempImageStorage';
-import {JSONContent} from "@tiptap/core";
-import {FileMetaResponse} from "@/type/file";
+import { uploadRichTextImages} from "@/util/richTextImageUploader";
 
 export default function NewNoticePage() {
     const [title, setTitle] = useState('');
@@ -20,93 +18,32 @@ export default function NewNoticePage() {
 
     const tempImageStorageRef = useRef(new TempImageStorage());
     const tempImageStorage = tempImageStorageRef.current;
-
-    const collectBlobSrcs = (json: JSONContent): string[] => {
-        const set = new Set<string>();
-        const walk = (node?: JSONContent) => {
-            if (!node) return;
-            if (node.type === "image" && typeof node.attrs?.src === "string") {
-                const src = node.attrs.src;
-                if (src.startsWith("blob:")) set.add(src);
-            }
-            node.content?.forEach(walk);
-        };
-        walk(json);
-        return Array.from(set);
-    };
-
-    const replaceTempSrcs = (json: JSONContent, map: Record<string, string>): JSONContent => {
-        const deep = (node: JSONContent): JSONContent => {
-            let next = { ...node };
-            if (next.type === "image" && typeof next.attrs?.src === "string") {
-                const src = next.attrs.src;
-                if (map[src]) {
-                    next = {
-                        ...next,
-                        attrs: {
-                            ...next.attrs,
-                            src: map[src], // publicUrl로 치환
-                        },
-                    };
-                }
-            }
-            if (next.content) {
-                next = { ...next, content: next.content.map(deep) };
-            }
-            return next;
-        };
-        return deep(json);
-    };
+    const category = "notice";
 
     const handleSubmit = async () => {
         if (!title.trim() || !editor) return alert("제목과 내용을 입력하세요.");
 
-        console.log("지금 눌렀어");
-
         setSaving(true);
         try {
-            // 1) 현재 문서 JSON
+            // 임시 이미지 파일 포함하는 json
             const draftJson = editor.getJSON();
+            // 업로드 완성된 파일 포함하는 json
+            const { finalJson, srcMap } = await uploadRichTextImages(draftJson, tempImageStorage, category);
 
-            // 2) 문서에 실제 남아있는 blob 이미지들만 대상
-            const blobSrcs = collectBlobSrcs(draftJson);
-
-            // 3) 업로드 (문서에 쓰인 blob만 업로드)
-            const srcMap: Record<string, string> = {}; // blob -> publicUrl
-            for (const blob of blobSrcs) {
-                const entry = tempImageStorage.get(blob);
-                if (!entry) continue; // 이미 삭제된 이미지일 수 있음
-                const formData = new FormData();
-                formData.append("file", entry.file);
-                formData.append("category", "notice");
-
-                const { data, error } = await apiPost<FileMetaResponse>("/files/upload", formData, {
-                    headers: { "Content-Type": "multipart/form-data" },
-                });
-                if (error || !data) throw new Error(`[업로드 실패] ${error?.message ?? "알 수 없는 오류"}`);
-
-                srcMap[blob] = data.publicUrl;
-            }
-
-            // 4) JSON 치환
-            const finalJson = replaceTempSrcs(draftJson, srcMap);
-
-            // 5) 게시글 저장
-            const payload: NoticePostRequest = {
+            // 게시글 저장
+            const { error: saveErr } = await apiPost<void>(`/posts/${category}`, {
                 title: title.trim(),
                 richBody: finalJson,
-            };
-
-            const { error: saveErr } = await apiPost<void>("/posts/notice", payload);
+            });
             if (saveErr) {
                 alert(`저장 실패: ${saveErr.message}`);
                 return;
             }
 
-            // 6) 업로드/저장 완료된 blob URL 정리
+            // 업로드/저장 완료된 blob URL 정리
             Object.keys(srcMap).forEach((blob) => tempImageStorage.remove(blob));
 
-            router.replace("/main/notice");
+            router.replace(`/main/${category}`);
         } finally {
             setSaving(false);
         }
