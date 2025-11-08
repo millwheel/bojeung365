@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import TiptapImageButton from "@/component/tiptap/tiptapImageButton";
 
-export default function Toolbar({ editor }: { editor: Editor }) {
+export default function Toolbar({ editor, category }: { editor: Editor, category: string }) {
     const [, forceUpdate] = useState(0);
 
     useEffect(() => {
@@ -104,7 +104,7 @@ export default function Toolbar({ editor }: { editor: Editor }) {
 
             <div className="h-6 w-px bg-gray-300 mx-1" />
 
-            <TiptapImageButton editor={editor} />
+            <TiptapImageButton editor={editor} category={category} />
         </div>
     );
 }

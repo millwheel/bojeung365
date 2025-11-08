@@ -78,7 +78,7 @@ export default function NewNoticePage() {
                 className="w-full border border-gray-300 rounded p-2 text-black"
             />
 
-            {editor && <Toolbar editor={editor} />}
+            {editor && <Toolbar editor={editor} category="notice" />}
 
             <div className="border border-gray-300 rounded p-2 min-h-[300px] text-black">
                 {editor && <EditorContent editor={editor} />}

@@ -5,12 +5,7 @@ import { Editor } from "@tiptap/core";
 import { ImagePlus } from "lucide-react";
 import { uploadImage } from "@/lib/imageFileApi";
 
-interface ImageButtonProps {
-    editor: Editor;
-    category?: string;
-}
-
-export default function TiptapImageButton({ editor, category }: ImageButtonProps) {
+export default function TiptapImageButton({ editor, category }: { editor: Editor, category: string }) {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [uploading, setUploading] = useState(false);
 
@@ -23,7 +18,7 @@ export default function TiptapImageButton({ editor, category }: ImageButtonProps
 
         setUploading(true);
         try {
-            const { data, error } = await uploadImage(file, category ?? "notice");
+            const { data, error } = await uploadImage(file, category);
             if (error || !data) {
                 alert(`[업로드 실패] ${error?.message ?? "알 수 없는 오류"}`);
                 return;
