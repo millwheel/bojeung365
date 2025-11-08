@@ -1,6 +1,7 @@
 "use client";
 
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 import {UserProfile} from "@/type/userType";
 import {apiPost} from "@/lib/api";
 import { clearTokens } from "@/lib/tokenStore";
@@ -11,6 +12,7 @@ type ProfileProps = {
 };
 
 export default function Profile({ userProfile, onLoggedOut }: ProfileProps) {
+    const router = useRouter();
 
     const handleLogout = async () => {
         const { error } = await apiPost<void>("/logout", {});
@@ -34,9 +36,18 @@ export default function Profile({ userProfile, onLoggedOut }: ProfileProps) {
 
                 <button
                     onClick={handleLogout}
-                    className="self-stretch bg-red-600 px-4 text-white font-medium hover:bg-red-500 cursor-pointer"
+                    className="h-14 bg-red-600 px-4 text-white font-medium hover:bg-red-500 cursor-pointer"
                 >
                     로그아웃
+                </button>
+            </div>
+            <div className="mt-2 text-right">
+                <button
+                    type="button"
+                    onClick={() => router.push('/password/change')}
+                    className="text-xs text-gray-400 hover:text-gray-200 cursor-pointer hover:underline"
+                >
+                    비밀번호변경
                 </button>
             </div>
         </div>
