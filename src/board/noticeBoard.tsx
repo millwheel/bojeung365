@@ -9,6 +9,7 @@ import {BoardResponse, NoticePostList} from "@/type/boardResponse";
 import toast from "react-hot-toast";
 import BoardTable, { Column } from "@/component/boardTable";
 import WriteButton from "@/component/writeButton";
+import Image from "next/image";
 
 const cellClass = "px-3 py-2 text-center text-gray-700";
 
@@ -68,7 +69,8 @@ export default function NoticeBoard() {
     ];
 
     return (
-        <div className="w-full">
+        <div>
+
             <BoardTable<NoticePostList>
                 rows={posts}
                 columns={columns}
