@@ -21,6 +21,7 @@ export function useDefaultTipTapEditor(content: string = '') {
             TextAlign.configure({
                 types: ['paragraph'],
             }),
+
             Image.configure({
                 HTMLAttributes: { loading: 'lazy', decoding: 'async' },
             }),
