@@ -1,4 +1,4 @@
-import type {ApiError} from "@/type/errorType";
+import type {ApiError} from "@/type/error";
 
 export type ApiResult<T> = {
     data: T | null;
