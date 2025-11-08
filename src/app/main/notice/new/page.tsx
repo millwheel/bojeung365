@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { EditorContent, useEditor } from '@tiptap/react';
 import { apiPost } from "@/lib/api";
 import {useRouter} from "next/navigation";
@@ -15,10 +15,7 @@ import {NoticePostRequest} from "@/type/postRequest";
 export default function NewNoticePage() {
     const [title, setTitle] = useState('');
     const [saving, setSaving] = useState(false);
-    const [mounted, setMounted] = useState(false);
     const router = useRouter();
-
-    useEffect(() => setMounted(true), []);
 
     const editor = useEditor({
         extensions: [
@@ -77,10 +74,10 @@ export default function NewNoticePage() {
                 className="w-full border border-gray-300 rounded p-2 text-black"
             />
 
-            {mounted && editor && <Toolbar editor={editor} />}
+            {editor && <Toolbar editor={editor} />}
 
             <div className="border border-gray-300 rounded p-2 min-h-[300px] text-black">
-                {mounted && editor && <EditorContent editor={editor} />}
+                {editor && <EditorContent editor={editor} />}
             </div>
 
             <div className="flex justify-end">
