@@ -23,21 +23,21 @@ export default function NewNoticePage() {
 
     const collectBlobSrcs = (json: JSONContent): string[] => {
         const set = new Set<string>();
-        const walk = (n?: JSONContent) => {
-            if (!n) return;
-            if (n.type === "image" && typeof n.attrs?.src === "string") {
-                const src = n.attrs.src;
+        const walk = (node?: JSONContent) => {
+            if (!node) return;
+            if (node.type === "image" && typeof node.attrs?.src === "string") {
+                const src = node.attrs.src;
                 if (src.startsWith("blob:")) set.add(src);
             }
-            n.content?.forEach(walk);
+            node.content?.forEach(walk);
         };
         walk(json);
         return Array.from(set);
     };
 
-    const replaceSrcs = (json: JSONContent, map: Record<string, string>): JSONContent => {
-        const deep = (n: JSONContent): JSONContent => {
-            let next = { ...n };
+    const replaceTempSrcs = (json: JSONContent, map: Record<string, string>): JSONContent => {
+        const deep = (node: JSONContent): JSONContent => {
+            let next = { ...node };
             if (next.type === "image" && typeof next.attrs?.src === "string") {
                 const src = next.attrs.src;
                 if (map[src]) {
@@ -60,6 +60,8 @@ export default function NewNoticePage() {
 
     const handleSubmit = async () => {
         if (!title.trim() || !editor) return alert("제목과 내용을 입력하세요.");
+
+        console.log("지금 눌렀어");
 
         setSaving(true);
         try {
@@ -87,7 +89,7 @@ export default function NewNoticePage() {
             }
 
             // 4) JSON 치환
-            const finalJson = replaceSrcs(draftJson, srcMap);
+            const finalJson = replaceTempSrcs(draftJson, srcMap);
 
             // 5) 게시글 저장
             const payload: NoticePostRequest = {
@@ -109,7 +111,6 @@ export default function NewNoticePage() {
             setSaving(false);
         }
     };
-
 
     useEffect(() => {
         return () => tempImageStorage.revokeAll();

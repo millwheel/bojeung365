@@ -23,11 +23,13 @@ export default function TiptapImageButton({ editor, tempImageStorage }: { editor
         // 1) Object URL 생성
         const objectUrl = URL.createObjectURL(file);
 
+        console.log(objectUrl)
+
         // 2) 임시 스토리지에 기록
         tempImageStorage.add({
             objectUrl,
             file,
-            alt: file.name, // 필요 시 `${category}_${file.name}` 같은 규칙도 OK
+            alt: file.name,
         });
 
         // 3) 에디터에 즉시 삽입 (임시 URL)
