@@ -17,8 +17,9 @@ import {
     Underline,
 } from "lucide-react";
 import TiptapImageButton from "@/component/tiptap/tiptapImageButton";
+import {TempImageStorage} from "@/util/tempImageStorage";
 
-export default function Toolbar({ editor, category }: { editor: Editor, category: string }) {
+export default function Toolbar({ editor, tempImageStorage }: { editor: Editor, tempImageStorage: TempImageStorage }) {
     const [, forceUpdate] = useState(0);
 
     useEffect(() => {
@@ -104,7 +105,7 @@ export default function Toolbar({ editor, category }: { editor: Editor, category
 
             <div className="h-6 w-px bg-gray-300 mx-1" />
 
-            <TiptapImageButton editor={editor} category={category} />
+            <TiptapImageButton editor={editor} tempImageStorage={tempImageStorage} />
         </div>
     );
 }
