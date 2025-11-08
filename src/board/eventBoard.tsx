@@ -15,13 +15,13 @@ const numberFormat = new Intl.NumberFormat("ko-KR");
 
 export default function EventBoard() {
     const [posts, setPosts] = useState<EventPostList[]>([]);
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     const loadPosts = useCallback(async () => {
 
         const { data, error } = await apiGet<BoardResponse<EventPostList>>(
-            `/posts/event?page=${currentPage}`
+            `/posts/event?page=${currentPage - 1}`
         );
 
         if (error) {
@@ -45,7 +45,7 @@ export default function EventBoard() {
             tdClassName: "px-3 py-2 text-left",
             render: (post) => (
                 <Link
-                    href="#"
+                    href={`/main/event/${post.id}`}
                     className="block max-w-[900px] truncate"
                     title={post.title}
                 >
@@ -79,7 +79,7 @@ export default function EventBoard() {
             <div className="flex items-center justify-between mt-4">
                 <div className="flex-1 flex justify-center">
                     <Pagination
-                        currentPage={currentPage + 1}
+                        currentPage={currentPage}
                         totalPages={totalPages}
                         onChange={setCurrentPage}
                         showFirstLast={true}

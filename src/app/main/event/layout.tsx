@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function NoiceLayout({ children }: { children: React.ReactNode }) {
+export default function EventLayout({ children }: { children: React.ReactNode }) {
 
     return (
         <div>
