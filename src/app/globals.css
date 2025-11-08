@@ -18,6 +18,12 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.ProseMirror[contenteditable="true"] img.ProseMirror-selectednode,
+.ProseMirror[contenteditable="true"] figure.ProseMirror-selectednode {
+  outline: 2px solid #2563eb;
+  border-radius: 6px;
+}
+
 .ProseMirror img {
   display: block;
   max-width: 100%;
