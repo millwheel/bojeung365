@@ -1,8 +1,9 @@
+import ReportBoard from "@/board/reportBoard";
 
-export default function ReportPage() {
+export default function ReportBoardPage() {
     return (
         <div>
-            
+            <ReportBoard />
         </div>
     );
 }
