@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { NoticePostResponse } from "@/type/postResponse";
 import { apiGet } from "@/lib/api";
 import PostFrame from "@/component/postFrame";
-import TipTapViewer from "@/lib/tiptap/tiptapViewer";
+import TipTapViewer from "@/component/tiptap/tiptapViewer";
 import NoticeBoard from "@/board/noticeBoard";
 
 export default function NoticePost() {

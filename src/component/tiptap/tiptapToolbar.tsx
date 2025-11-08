@@ -1,14 +1,28 @@
 "use client"
 
 import {Editor} from "@tiptap/core";
-import ToggleButton from "@/lib/tiptap/tiptapFontStyleButton";
-import {useEffect, useState} from "react";
-import ColorPicker from "@/lib/tiptap/tiptapColorPicker";
+import ToggleButton from "@/component/tiptap/tiptapToggleButton";
+import {useEffect, useRef, useState} from "react";
+import ColorPicker from "@/component/tiptap/tiptapColorPicker";
 import FontSizeSelector from "./tiptapFontSizeSelector";
-import {AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Italic, RotateCcw, Strikethrough, Underline} from "lucide-react";
+import {
+    AlignCenter,
+    AlignJustify,
+    AlignLeft,
+    AlignRight,
+    Bold,
+    Italic,
+    RotateCcw,
+    Strikethrough,
+    Underline,
+    ImagePlus,
+} from "lucide-react";
+import { uploadImage } from "@/lib/imageFileApi";
 
 export default function Toolbar({ editor }: { editor: Editor }) {
     const [, forceUpdate] = useState(0);
+    const [uploading, setUploading] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
         if (!editor) return;
@@ -27,6 +41,30 @@ export default function Toolbar({ editor }: { editor: Editor }) {
     }, [editor]);
 
     if (!editor) return null;
+
+    const openPicker = () => fileInputRef.current?.click();
+
+    const onPickFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const f = e.target.files?.[0];
+        e.target.value = ""; // 같은 파일 재선택 허용
+        if (!f) return;
+
+        setUploading(true);
+        try {
+            const { data, error } = await uploadImage(f, "notice"); // 카테고리 필요시 조정
+            if (error || !data) {
+                alert(`[업로드 실패] ${error?.message ?? "알 수 없는 오류"}`);
+                return;
+            }
+            editor
+                .chain()
+                .focus()
+                .setImage({ src: data.publicUrl, alt: data.originalFilename })
+                .run();
+        } finally {
+            setUploading(false);
+        }
+    };
 
     return (
         <div className="flex flex-wrap items-center gap-2 border border-gray-300 rounded p-2 bg-white text-black">

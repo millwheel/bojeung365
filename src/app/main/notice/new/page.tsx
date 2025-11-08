@@ -8,9 +8,11 @@ import { StarterKit } from '@tiptap/starter-kit';
 import { Underline } from '@tiptap/extension-underline';
 import { TextStyle, FontSize } from '@tiptap/extension-text-style';
 import { Color } from '@tiptap/extension-color';
+import Image from '@tiptap/extension-image';
 import { TextAlign } from '@tiptap/extension-text-align';
-import Toolbar from "@/lib/tiptap/tiptapToolbar";
+import Toolbar from "@/component/tiptap/tiptapToolbar";
 import {NoticePostRequest} from "@/type/postRequest";
+import { uploadImage } from '@/lib/imageFileApi';
 
 export default function NewNoticePage() {
     const [title, setTitle] = useState('');
@@ -30,6 +32,9 @@ export default function NewNoticePage() {
             }),
             TextAlign.configure({
                 types: ['paragraph'],
+            }),
+            Image.configure({
+                HTMLAttributes: { loading: 'lazy', decoding: 'async' },
             }),
         ],
         content: '',
