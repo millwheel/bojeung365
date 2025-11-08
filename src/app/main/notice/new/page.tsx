@@ -12,7 +12,6 @@ import Image from '@tiptap/extension-image';
 import { TextAlign } from '@tiptap/extension-text-align';
 import Toolbar from "@/component/tiptap/tiptapToolbar";
 import {NoticePostRequest} from "@/type/postRequest";
-import { uploadImage } from '@/lib/imageFileApi';
 
 export default function NewNoticePage() {
     const [title, setTitle] = useState('');
