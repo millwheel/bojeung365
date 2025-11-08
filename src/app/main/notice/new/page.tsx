@@ -1,50 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { EditorContent, useEditor } from '@tiptap/react';
+import { EditorContent } from '@tiptap/react';
 import { apiPost } from "@/lib/api";
 import {useRouter} from "next/navigation";
-import { StarterKit } from '@tiptap/starter-kit';
-import { Underline } from '@tiptap/extension-underline';
-import { TextStyle, FontSize } from '@tiptap/extension-text-style';
-import { Color } from '@tiptap/extension-color';
-import Image from '@tiptap/extension-image';
-import { TextAlign } from '@tiptap/extension-text-align';
 import Toolbar from "@/component/tiptap/tiptapToolbar";
 import {NoticePostRequest} from "@/type/postRequest";
+import {useDefaultTipTapEditor} from "@/component/tiptap/useDefaultTipTapEditor";
 
 export default function NewNoticePage() {
     const [title, setTitle] = useState('');
     const [saving, setSaving] = useState(false);
     const router = useRouter();
 
-    const editor = useEditor({
-        extensions: [
-            StarterKit.configure({}),
-            Underline,
-            TextStyle,
-            Color.configure({
-                types: ['textStyle'],
-            }),
-            FontSize.configure({
-                types: ['textStyle']
-            }),
-            TextAlign.configure({
-                types: ['paragraph'],
-            }),
-            Image.configure({
-                HTMLAttributes: { loading: 'lazy', decoding: 'async' },
-            }),
-        ],
-        content: '',
-        immediatelyRender: false,
-        editorProps: {
-            attributes: {
-                class:
-                    'prose prose-sm sm:prose max-w-none focus:outline-none min-h-[280px] text-black',
-            },
-        },
-    });
+    const editor = useDefaultTipTapEditor();
 
     const handleSubmit = async () => {
         if (!title.trim() || !editor) return alert('제목과 내용을 입력하세요.');
@@ -79,7 +48,6 @@ export default function NewNoticePage() {
             />
 
             {editor && <Toolbar editor={editor} category="notice" />}
-
             <div className="border border-gray-300 rounded p-2 min-h-[300px] text-black">
                 {editor && <EditorContent editor={editor} />}
             </div>

@@ -12,10 +12,9 @@ import Image from '@tiptap/extension-image';
 
 interface TipTapViewerProps {
     value: JSONContent;
-    className?: string;
 }
 
-export default function TipTapViewer({ value, className }: TipTapViewerProps) {
+export default function TipTapViewer({ value }: TipTapViewerProps) {
     const content = useMemo(() => {
         if (!value) return { type: 'doc', content: [] };
         return value;
@@ -54,7 +53,7 @@ export default function TipTapViewer({ value, className }: TipTapViewerProps) {
     }
 
     return (
-        <div className={className}>
+        <div>
             <EditorContent editor={editor} />
         </div>
     );
