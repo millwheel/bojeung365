@@ -65,7 +65,6 @@ export default function NoticePost() {
             >
                 <TipTapViewer
                     value={data.richBody}
-                    className=""
                 />
             </PostFrame>
             <NoticeBoard />

@@ -8,6 +8,7 @@ import { Underline } from '@tiptap/extension-underline';
 import { FontSize, TextStyle } from "@tiptap/extension-text-style";
 import { Color } from '@tiptap/extension-text-style';
 import TextAlign from "@tiptap/extension-text-align";
+import Image from '@tiptap/extension-image';
 
 interface TipTapViewerProps {
     value: JSONContent;
@@ -30,12 +31,15 @@ export default function TipTapViewer({ value, className }: TipTapViewerProps) {
             TextAlign.configure({
                 types: ['paragraph', 'heading'],
             }),
+            Image.configure({
+                HTMLAttributes: { loading: 'lazy', decoding: 'async' },
+            }),
         ],
         content,
         editable: false,
         editorProps: {
             attributes: {
-                class: 'focus:outline-none',
+                class: 'ProseMirror prose max-w-none focus:outline-none',
             },
         },
         immediatelyRender: false,
