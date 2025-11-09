@@ -10,25 +10,7 @@ import Link from "next/link";
 import ReviewBoard from "@/board/reviewBoard";
 import {formatContentDate} from "@/util/dataFormatter";
 import {formatMoney} from "@/util/moneyFormatter";
-
-function RatingPill({ label, value }: { label: string; value?: number | null }) {
-    return (
-        <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-500">{label}</span>
-            <span className="px-2 py-0.5 rounded-full border text-sm">
-                {typeof value === "number" ? value : "-"}
-            </span>
-            {typeof value === "number" && (
-                <div className="h-2 flex-1 rounded bg-gray-200 overflow-hidden min-w-24">
-                    <div
-                        className="h-2"
-                        style={{ width: `${Math.min(Math.max(value, 0), 10) * 10}%` }}
-                    />
-                </div>
-            )}
-        </div>
-    );
-}
+import RatingStars from "@/component/ratingStar";
 
 export default function ReviewPost() {
     const params = useParams<{ id: string }>();
@@ -126,10 +108,10 @@ export default function ReviewPost() {
                     <div className="rounded-md border p-4 col-span-1 sm:col-span-2 lg:col-span-1">
                         <div className="text-xs text-gray-500 mb-2">평가</div>
                         <div className="flex flex-col gap-2">
-                            <RatingPill label="환전속도" value={data.exchangeSpeed} />
-                            <RatingPill label="배당평가" value={data.dividendRating} />
-                            <RatingPill label="이벤트평가" value={data.eventRating} />
-                            <RatingPill label="신뢰도" value={data.reliability} />
+                            <RatingStars label="환전속도" value={data.exchangeSpeed} />
+                            <RatingStars label="배당평가" value={data.dividendRating} />
+                            <RatingStars label="이벤트평가" value={data.eventRating} />
+                            <RatingStars label="신뢰도" value={data.reliability} />
                         </div>
                     </div>
                 </div>
