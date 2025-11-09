@@ -7,6 +7,7 @@ import { apiGet } from "@/lib/api";
 import PostFrame from "@/component/postFrame";
 import { ReviewPostResponse } from "@/type/postResponse";
 import Link from "next/link";
+import ReviewBoard from "@/board/reviewBoard";
 
 const fmtMoney = (v?: string | null) => {
     if (!v) return "-";
@@ -145,6 +146,7 @@ export default function NoticePost() {
                     <p>{data.body}</p>
                 </div>
             </PostFrame>
+            <ReviewBoard />
         </div>
     );
 }
