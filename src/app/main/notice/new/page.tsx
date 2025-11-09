@@ -8,6 +8,7 @@ import Toolbar from "@/component/tiptap/tiptapToolbar";
 import {useDefaultTipTapEditor} from "@/component/tiptap/useDefaultTipTapEditor";
 import { TempImageStorage } from '@/util/tempImageStorage';
 import { uploadRichTextImages} from "@/util/richTextImageUploader";
+import {NoticePostRequest} from "@/type/postRequest";
 
 export default function NewNoticePage() {
     const [title, setTitle] = useState('');
@@ -30,11 +31,13 @@ export default function NewNoticePage() {
             // 업로드 완성된 파일 포함하는 json
             const { finalJson, srcMap } = await uploadRichTextImages(draftJson, tempImageStorage, category);
 
-            // 게시글 저장
-            const { error: saveErr } = await apiPost<void>(`/posts/${category}`, {
+            const noticePostRequest : NoticePostRequest = {
                 title: title.trim(),
                 richBody: finalJson,
-            });
+            }
+
+            // 게시글 저장
+            const { error: saveErr } = await apiPost<void>(`/posts/${category}`, noticePostRequest);
             if (saveErr) {
                 alert(`저장 실패: ${saveErr.message}`);
                 return;

@@ -21,11 +21,11 @@ export default function ReportBoard() {
     const loadPosts = useCallback(async () => {
 
         const { data, error } = await apiGet<BoardResponse<ReportPostList>>(
-            `/posts/scam-report?page=${currentPage - 1}`
+            `/posts/report?page=${currentPage - 1}`
         );
 
         if (error) {
-            toast.error(`[이용후기 불러오기 실패] ${error.message}`);
+            toast.error(`[먹튀신고 불러오기 실패] ${error.message}`);
         } else if (data) {
             setPosts(data.content ?? []);
             setTotalPages(data.totalPages ?? 0);
