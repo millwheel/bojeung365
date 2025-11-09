@@ -15,13 +15,13 @@ const numberFormat = new Intl.NumberFormat("ko-KR");
 
 export default function ReviewBoard() {
     const [posts, setPosts] = useState<ReviewPostList[]>([]);
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     const loadPosts = useCallback(async () => {
 
         const { data, error } = await apiGet<BoardResponse<ReviewPostList>>(
-            `/posts/review?page=${currentPage}`
+            `/posts/review?page=${currentPage - 1}`
         );
 
         if (error) {
@@ -45,7 +45,7 @@ export default function ReviewBoard() {
             tdClassName: "px-3 py-2 text-left",
             render: (post) => (
                 <Link
-                    href="#"
+                    href={`/main/review/${post.id}`}
                     className="block max-w-[900px] truncate"
                     title={post.title}
                 >
@@ -80,7 +80,7 @@ export default function ReviewBoard() {
             <div className="flex items-center justify-between mt-4">
                 <div className="flex-1 flex justify-center">
                     <Pagination
-                        currentPage={currentPage + 1}
+                        currentPage={currentPage}
                         totalPages={totalPages}
                         onChange={setCurrentPage}
                         showFirstLast={true}
