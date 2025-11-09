@@ -1,10 +1,4 @@
-/**
- * 오늘이면 "HH:mm" 형식으로,
- * 오늘이 아니면 "YYYY-MM-DD" 형식으로 반환합니다.
- *
- * @param dateString "YYYY-MM-DD HH:mm" 형식의 문자열
- */
-export function formatDate(dateString: string) {
+export function formatBoardDateTime(dateString: string) {
     const date = new Date(dateString);
     const now = new Date();
 
@@ -40,4 +34,13 @@ export function formatDate(dateString: string) {
         // 다르면 "년도.월.일" 형태 (예: 2024.12.30)
         return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
     }
+}
+
+export function formatContentDate(dateStr?: string | null) {
+    if (!dateStr) return "-";
+
+    // 기대되는 포맷: "YYYY-MM-DD"
+    const [year, month, day] = dateStr.split("-");
+
+    return `${year}년 ${Number(month)}월 ${Number(day)}일`;
 }

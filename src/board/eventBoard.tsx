@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import Pagination from "@/component/pagination";
-import { formatDate } from "@/util/dataFormat";
+import { formatBoardDateTime } from "@/util/dataFormatter";
 import {BoardResponse, EventPostList} from "@/type/boardResponse";
 import { apiGet } from "@/lib/api";
 import toast from "react-hot-toast";
@@ -58,7 +58,7 @@ export default function EventBoard() {
             header: "날짜",
             thClassName: "w-32",
             tdClassName: "text-center",
-            render: (post) => formatDate(post.createdAt),
+            render: (post) => formatBoardDateTime(post.createdAt),
         },
         {
             header: "조회",

@@ -1,5 +1,5 @@
 import { ReactNode, useMemo, useState } from "react";
-import { formatDate } from "@/util/dataFormat";
+import { formatBoardDateTime } from "@/util/dataFormatter";
 import { CommentResponse } from "@/type/postResponse";
 import {Eye, Clock, MessageSquare, Pencil} from "lucide-react";
 import {apiDelete} from "@/lib/api";
@@ -28,7 +28,7 @@ export default function PostFrame({
                                       children,
                                       editable
                                   }: PostFrameProps) {
-    const createdAtText = useMemo(() => (createdAt ? formatDate(createdAt) : ""), [createdAt]);
+    const createdAtText = useMemo(() => (createdAt ? formatBoardDateTime(createdAt) : ""), [createdAt]);
     const [comment, setComment] = useState("");
     const router = useRouter();
 
@@ -144,7 +144,7 @@ export default function PostFrame({
                                         <div className="flex items-center gap-3">
                                             <span className="font-medium text-sm">{c.authorNickname}</span>
                                             <span className="text-xs text-gray-500">
-                                                {formatDate(c.createdAt)}
+                                                {formatBoardDateTime(c.createdAt)}
                                             </span>
                                         </div>
                                         <p className="mt-1 whitespace-pre-wrap text-sm break-words">

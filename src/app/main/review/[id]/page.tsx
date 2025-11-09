@@ -8,14 +8,8 @@ import PostFrame from "@/component/postFrame";
 import { ReviewPostResponse } from "@/type/postResponse";
 import Link from "next/link";
 import ReviewBoard from "@/board/reviewBoard";
-
-const fmtMoney = (v?: string | null) => {
-    if (!v) return "-";
-    const n = Number(v);
-    return Number.isFinite(n) ? n.toLocaleString() : v;
-};
-
-const fmtDate = (s?: string | null) => (s ? s : "-");
+import {formatContentDate} from "@/util/dataFormatter";
+import {formatMoney} from "@/util/moneyFormatter";
 
 function RatingPill({ label, value }: { label: string; value?: number | null }) {
     return (
@@ -36,7 +30,7 @@ function RatingPill({ label, value }: { label: string; value?: number | null }) 
     );
 }
 
-export default function NoticePost() {
+export default function ReviewPost() {
     const params = useParams<{ id: string }>();
     const id = params?.id;
     const [data, setData] = useState<ReviewPostResponse | null>(null);
@@ -115,19 +109,19 @@ export default function NoticePost() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     <div className="rounded-md border p-4">
                         <div className="text-xs text-gray-500">베팅일</div>
-                        <div className="text-base">{fmtDate(data.bettingDate)}</div>
+                        <div className="text-base">{formatContentDate(data.bettingDate)}</div>
                     </div>
                     <div className="rounded-md border p-4">
                         <div className="text-xs text-gray-500">베팅금액</div>
-                        <div className="text-base">{fmtMoney(data.bettingAmount)}</div>
+                        <div className="text-base">{formatMoney(data.bettingAmount)}</div>
                     </div>
                     <div className="rounded-md border p-4">
                         <div className="text-xs text-gray-500">배당률</div>
-                        <div className="text-base">{fmtMoney(data.dividend)}</div>
+                        <div className="text-base">{formatMoney(data.dividend)}</div>
                     </div>
                     <div className="rounded-md border p-4">
                         <div className="text-xs text-gray-500">당첨금</div>
-                        <div className="text-base">{fmtMoney(data.winAmount)}</div>
+                        <div className="text-base">{formatMoney(data.winAmount)}</div>
                     </div>
                     <div className="rounded-md border p-4 col-span-1 sm:col-span-2 lg:col-span-1">
                         <div className="text-xs text-gray-500 mb-2">평가</div>
