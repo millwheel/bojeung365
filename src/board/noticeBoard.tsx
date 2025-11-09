@@ -3,25 +3,24 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import Pagination from "@/component/pagination";
-import { formatDate } from "@/util/dataFormat";
+import { formatBoardDateTime } from "@/util/dataFormatter";
 import { apiGet } from "@/lib/api";
 import {BoardResponse, NoticePostList} from "@/type/boardResponse";
 import toast from "react-hot-toast";
 import BoardTable, { Column } from "@/component/boardTable";
 import WriteButton from "@/component/writeButton";
-import {router} from "next/client";
 
 const cellClass = "px-3 py-2 text-center text-gray-700";
 
 export default function NoticeBoard() {
     const [posts, setPosts] = useState<NoticePostList[]>([]);
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     const loadPosts = useCallback(async () => {
 
         const { data, error } = await apiGet<BoardResponse<NoticePostList>>(
-            `/posts/notice?page=${currentPage}`
+            `/posts/notice?page=${currentPage - 1}`
         );
 
         if (error) {
@@ -58,7 +57,7 @@ export default function NoticeBoard() {
             header: "날짜",
             thClassName: "w-32",
             tdClassName: "text-center",
-            render: (post) => formatDate(post.createdAt),
+            render: (post) => formatBoardDateTime(post.createdAt),
         },
         {
             header: "조회",
@@ -69,7 +68,8 @@ export default function NoticeBoard() {
     ];
 
     return (
-        <div className="w-full">
+        <div>
+
             <BoardTable<NoticePostList>
                 rows={posts}
                 columns={columns}
@@ -79,7 +79,7 @@ export default function NoticeBoard() {
             <div className="flex items-center justify-between mt-4">
                 <div className="flex-1 flex justify-center">
                     <Pagination
-                        currentPage={currentPage + 1}
+                        currentPage={currentPage}
                         totalPages={totalPages}
                         onChange={setCurrentPage}
                         showFirstLast={true}
@@ -87,7 +87,7 @@ export default function NoticeBoard() {
                     />
                 </div>
 
-                <WriteButton onlyAdmin={true} onClick={() => router.push("/main/notice/new")} />
+                <WriteButton onlyAdmin={true} href="/main/notice/new" />
             </div>
         </div>
     );

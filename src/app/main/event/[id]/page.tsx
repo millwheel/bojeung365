@@ -3,16 +3,16 @@
 import toast from "react-hot-toast";
 import { useParams } from "next/navigation";
 import {useEffect, useState} from "react";
-import { NoticePostResponse } from "@/type/postResponse";
+import { EventPostResponse } from "@/type/postResponse";
 import { apiGet } from "@/lib/api";
 import PostFrame from "@/component/postFrame";
 import TipTapViewer from "@/component/tiptap/tiptapViewer";
-import NoticeBoard from "@/board/noticeBoard";
+import EventBoard from "@/board/eventBoard";
 
-export default function NoticePost() {
+export default function EventPost() {
     const params = useParams<{ id: string }>();
     const id = params?.id;
-    const [data, setData] = useState<NoticePostResponse | null>(null);
+    const [data, setData] = useState<EventPostResponse | null>(null);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -21,11 +21,11 @@ export default function NoticePost() {
 
         (async () => {
             setLoading(true);
-            const { data, error } = await apiGet<NoticePostResponse>(`/posts/notice/${id}`);
+            const { data, error } = await apiGet<EventPostResponse>(`/posts/event/${id}`);
             if (!isMounted) return;
 
             if (error) {
-                toast.error(`[공지사항 상세 조회 실패] ${error.message}`);
+                toast.error(`[이벤트 상세 조회 실패] ${error.message}`);
                 setData(null);
             } else {
                 setData(data ?? null);
@@ -58,7 +58,7 @@ export default function NoticePost() {
         <div className="w-full flex flex-col gap-3">
             <PostFrame
                 id={data.id}
-                category="notice"
+                category="event"
                 title={data.title}
                 authorNickname={data.author?.nickname}
                 createdAt={data.createdAt}
@@ -70,7 +70,7 @@ export default function NoticePost() {
                     value={data.richBody}
                 />
             </PostFrame>
-            <NoticeBoard />
+            <EventBoard />
         </div>
     );
 }

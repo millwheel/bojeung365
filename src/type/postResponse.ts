@@ -22,6 +22,19 @@ export type NoticePostResponse = {
     updatedAt: string;
     commentResponses: CommentResponse[];
     richBody: JSONContent;
+    editable: boolean;
+};
+
+export type EventPostResponse = {
+    id: number;
+    title: string;
+    viewCount: number;
+    author: AuthorResponse;
+    createdAt: string;
+    updatedAt: string;
+    commentResponses: CommentResponse[];
+    richBody: JSONContent;
+    editable: boolean;
 };
 
 export type ReviewPostResponse = {
@@ -43,4 +56,5 @@ export type ReviewPostResponse = {
     eventRating: number;
     reliability: number;
     body: string;
+    editable: boolean;
 };

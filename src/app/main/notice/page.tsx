@@ -1,8 +1,9 @@
+import NoticeBoard from "@/board/noticeBoard";
 
-export default function NoticePage() {
+export default function NoticeBoardPage() {
     return (
         <div>
-
+            <NoticeBoard />
         </div>
     );
 }

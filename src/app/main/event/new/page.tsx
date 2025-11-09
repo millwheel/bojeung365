@@ -8,9 +8,9 @@ import Toolbar from "@/component/tiptap/tiptapToolbar";
 import {useDefaultTipTapEditor} from "@/component/tiptap/useDefaultTipTapEditor";
 import { TempImageStorage } from '@/util/tempImageStorage';
 import { uploadRichTextImages} from "@/util/richTextImageUploader";
-import {NoticePostRequest} from "@/type/postRequest";
+import { EventPostRequest } from "@/type/postRequest";
 
-export default function NewNoticePage() {
+export default function NewEventPage() {
     const [title, setTitle] = useState('');
     const [saving, setSaving] = useState(false);
     const router = useRouter();
@@ -19,7 +19,7 @@ export default function NewNoticePage() {
 
     const tempImageStorageRef = useRef(new TempImageStorage());
     const tempImageStorage = tempImageStorageRef.current;
-    const category = "notice";
+    const category = "event";
 
     const handleSubmit = async () => {
         if (!title.trim() || !editor) return alert("제목과 내용을 입력하세요.");
@@ -31,13 +31,13 @@ export default function NewNoticePage() {
             // 업로드 완성된 파일 포함하는 json
             const { finalJson, srcMap } = await uploadRichTextImages(draftJson, tempImageStorage, category);
 
-            const noticePostRequest : NoticePostRequest = {
+            const eventPostRequest : EventPostRequest = {
                 title: title.trim(),
                 richBody: finalJson,
             }
 
             // 게시글 저장
-            const { error: saveErr } = await apiPost<void>(`/posts/${category}`, noticePostRequest);
+            const { error: saveErr } = await apiPost<void>(`/posts/${category}`, eventPostRequest);
             if (saveErr) {
                 alert(`저장 실패: ${saveErr.message}`);
                 return;

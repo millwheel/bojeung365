@@ -2,18 +2,19 @@
 
 import { useEffect, useMemo } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
-import {StarterKit} from "@tiptap/starter-kit";
-import Underline from '@tiptap/extension-underline';
-import {FontSize, TextStyle} from "@tiptap/extension-text-style";
-import { Color } from '@tiptap/extension-text-style';
 import { JSONContent } from '@tiptap/core';
+import { StarterKit } from "@tiptap/starter-kit";
+import { Underline } from '@tiptap/extension-underline';
+import { FontSize, TextStyle } from "@tiptap/extension-text-style";
+import { Color } from '@tiptap/extension-text-style';
+import TextAlign from "@tiptap/extension-text-align";
+import Image from '@tiptap/extension-image';
 
 interface TipTapViewerProps {
     value: JSONContent;
-    className?: string;
 }
 
-export default function TipTapViewer({ value, className }: TipTapViewerProps) {
+export default function TipTapViewer({ value }: TipTapViewerProps) {
     const content = useMemo(() => {
         if (!value) return { type: 'doc', content: [] };
         return value;
@@ -21,19 +22,23 @@ export default function TipTapViewer({ value, className }: TipTapViewerProps) {
 
     const editor = useEditor({
         extensions: [
-            StarterKit.configure({
-
-            }),
+            StarterKit,
             Underline,
             TextStyle,
             Color,
-            FontSize,
+            FontSize.configure({ types: ['textStyle'] }),
+            TextAlign.configure({
+                types: ['paragraph', 'image'],
+            }),
+            Image.configure({
+                HTMLAttributes: { loading: 'lazy', decoding: 'async' },
+            }),
         ],
         content,
         editable: false,
         editorProps: {
             attributes: {
-                class: 'focus:outline-none',
+                class: 'ProseMirror prose max-w-none focus:outline-none',
             },
         },
         immediatelyRender: false,
@@ -48,7 +53,7 @@ export default function TipTapViewer({ value, className }: TipTapViewerProps) {
     }
 
     return (
-        <div className={className}>
+        <div>
             <EditorContent editor={editor} />
         </div>
     );

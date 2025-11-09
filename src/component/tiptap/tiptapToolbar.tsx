@@ -1,13 +1,25 @@
 "use client"
 
 import {Editor} from "@tiptap/core";
-import ToggleButton from "@/lib/tiptap/tiptapFontStyleButton";
+import ToggleButton from "@/component/tiptap/tiptapToggleButton";
 import {useEffect, useState} from "react";
-import ColorPicker from "@/lib/tiptap/tiptapColorPicker";
+import ColorPicker from "@/component/tiptap/tiptapColorPicker";
 import FontSizeSelector from "./tiptapFontSizeSelector";
-import {AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Italic, RotateCcw, Strikethrough, Underline} from "lucide-react";
+import {
+    AlignCenter,
+    AlignJustify,
+    AlignLeft,
+    AlignRight,
+    Bold,
+    Italic,
+    RotateCcw,
+    Strikethrough,
+    Underline,
+} from "lucide-react";
+import TiptapImageButton from "@/component/tiptap/tiptapImageButton";
+import {TempImageStorage} from "@/util/tempImageStorage";
 
-export default function Toolbar({ editor }: { editor: Editor }) {
+export default function Toolbar({ editor, tempImageStorage }: { editor: Editor, tempImageStorage: TempImageStorage }) {
     const [, forceUpdate] = useState(0);
 
     useEffect(() => {
@@ -92,6 +104,8 @@ export default function Toolbar({ editor }: { editor: Editor }) {
             />
 
             <div className="h-6 w-px bg-gray-300 mx-1" />
+
+            <TiptapImageButton editor={editor} tempImageStorage={tempImageStorage} />
         </div>
     );
 }

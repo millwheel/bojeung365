@@ -1,48 +1,79 @@
 import { ReactNode, useMemo, useState } from "react";
-import { formatDate } from "@/util/dataFormat";
+import { formatBoardDateTime } from "@/util/dataFormatter";
 import { CommentResponse } from "@/type/postResponse";
 import {Eye, Clock, MessageSquare, Pencil} from "lucide-react";
+import {apiDelete} from "@/lib/api";
+import {useRouter} from "next/navigation";
 
 export type PostFrameProps = {
+    id: number;
+    category: string;
     title: string;
     authorNickname: string;
     createdAt: string;
     viewCount: number;
     comments?: CommentResponse[];
     children?: ReactNode;
-    onSubmitComment?: (text: string) => Promise<void> | void;
+    editable: boolean;
 };
 
 export default function PostFrame({
+                                      id,
+                                      category,
                                       title,
                                       authorNickname,
                                       createdAt,
                                       viewCount,
                                       comments,
                                       children,
-                                      onSubmitComment,
+                                      editable
                                   }: PostFrameProps) {
-    const createdAtText = useMemo(() => (createdAt ? formatDate(createdAt) : ""), [createdAt]);
+    const createdAtText = useMemo(() => (createdAt ? formatBoardDateTime(createdAt) : ""), [createdAt]);
     const [comment, setComment] = useState("");
+    const router = useRouter();
 
     const handleSubmit = async () => {
         if (!comment.trim()) return;
-        try {
-            await onSubmitComment?.(comment.trim());
-            setComment("");
-        } catch {
-            // UI만 담당
-        }
+
+        // TODO comment 추가 api 연결
+
     };
+
+    const handleDelete = async () => {
+        const confirmed = window.confirm("정말로 삭제하시겠습니까?");
+        if (!confirmed) return;
+        const { error } = await apiDelete<void>(`/posts/${category}/${id}`);
+        if (error) {
+            console.error(error);
+            return;
+        }
+        router.replace(`/main/${category}`);
+    }
 
     return (
         <article className="bg-white border shadow-sm text-black">
             {/* 헤더 */}
             <header className="px-4 pt-4">
-                {/* 제목 */}
-                <h1 className="text-md md:text-xl font-extrabold tracking-tight text-gray-900">
-                    {title}
-                </h1>
+                <div className="flex items-center justify-between">
+                    <h1 className="text-md md:text-xl font-extrabold tracking-tight text-gray-900">
+                        {title}
+                    </h1>
+                    {editable && (
+                        <div className="flex gap-2">
+                            <button
+                                className="px-3 py-1 text-sm font-semibold text-white bg-blue-600 rounded hover:bg-blue-500 transition-colors cursor-pointer"
+                            >
+                                수정
+                            </button>
+                            <button
+                                onClick={() => handleDelete()}
+                                className="px-3 py-1 text-sm font-semibold text-white bg-red-600 rounded hover:bg-red-500 transition-colors cursor-pointer"
+                            >
+                                삭제
+                            </button>
+                        </div>
+                    )}
+                </div>
 
                 {/* 메타 */}
                 <div className="mt-3 flex flex-wrap items-center justify-between gap-3 text-sm bg-gray-200 p-2 border-t border-b border-gray-300">
@@ -113,7 +144,7 @@ export default function PostFrame({
                                         <div className="flex items-center gap-3">
                                             <span className="font-medium text-sm">{c.authorNickname}</span>
                                             <span className="text-xs text-gray-500">
-                                                {formatDate(c.createdAt)}
+                                                {formatBoardDateTime(c.createdAt)}
                                             </span>
                                         </div>
                                         <p className="mt-1 whitespace-pre-wrap text-sm break-words">

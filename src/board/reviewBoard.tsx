@@ -3,26 +3,25 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import Pagination from "@/component/pagination";
-import { formatDate } from "@/util/dataFormat";
+import { formatBoardDateTime } from "@/util/dataFormatter";
 import {BoardResponse, ReviewPostList} from "@/type/boardResponse";
 import { apiGet } from "@/lib/api";
 import toast from "react-hot-toast";
 import BoardTable, { Column } from "@/component/boardTable";
 import WriteButton from "@/component/writeButton";
-import {router} from "next/client";
 
 const cellClass = "px-3 py-2 text-center text-gray-700";
 const numberFormat = new Intl.NumberFormat("ko-KR");
 
 export default function ReviewBoard() {
     const [posts, setPosts] = useState<ReviewPostList[]>([]);
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     const loadPosts = useCallback(async () => {
 
         const { data, error } = await apiGet<BoardResponse<ReviewPostList>>(
-            `/posts/review?page=${currentPage}`
+            `/posts/review?page=${currentPage - 1}`
         );
 
         if (error) {
@@ -46,7 +45,7 @@ export default function ReviewBoard() {
             tdClassName: "px-3 py-2 text-left",
             render: (post) => (
                 <Link
-                    href="#"
+                    href={`/main/review/${post.id}`}
                     className="block max-w-[900px] truncate"
                     title={post.title}
                 >
@@ -60,7 +59,7 @@ export default function ReviewBoard() {
             header: "날짜",
             thClassName: "w-28",
             tdClassName: "text-center",
-            render: (post) => formatDate(post.createdAt),
+            render: (post) => formatBoardDateTime(post.createdAt),
         },
         {
             header: "조회",
@@ -81,14 +80,14 @@ export default function ReviewBoard() {
             <div className="flex items-center justify-between mt-4">
                 <div className="flex-1 flex justify-center">
                     <Pagination
-                        currentPage={currentPage + 1}
+                        currentPage={currentPage}
                         totalPages={totalPages}
                         onChange={setCurrentPage}
                         showFirstLast={true}
                         showPrevNext={true}
                     />
                 </div>
-                <WriteButton onlyAdmin={false} onClick={() => router.push("/main/review/new")} />
+                <WriteButton onlyAdmin={false} href="/main/review/new" />
             </div>
         </div>
     );
