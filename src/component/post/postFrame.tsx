@@ -1,7 +1,7 @@
 import {ReactNode, useMemo, useState} from "react";
 import { formatBoardDateTime } from "@/util/dataFormatter";
 import {CommentResponse, NoticePostResponse} from "@/type/postResponse";
-import {Eye, Clock, MessageSquare, Pencil} from "lucide-react";
+import {Eye, Clock, MessageSquare, Pencil, Trash2} from "lucide-react";
 import {apiDelete, apiGet, apiPost} from "@/lib/api";
 import {useRouter} from "next/navigation";
 import Link from "next/link";
@@ -37,15 +37,12 @@ export default function PostFrame({
     const [commentList, setCommentList] = useState<CommentResponse[]>(comments ?? []);
 
     const loadComments = async () => {
-
         const { data, error } = await apiGet<CommentResponse[]>(`/comments?postId=${id}`);
-
         if (!data || error) {
             toast.error("댓글 목록 조회에 실패했습니다.");
             console.error(error);
             return;
         }
-
         setCommentList(data ?? []);
     };
 
@@ -57,9 +54,7 @@ export default function PostFrame({
         }
 
         setCommentPending(true);
-
         const { error } = await apiPost<void>(`/comments?postId=${id}`, { body });
-
         setCommentPending(false);
 
         if (error) {
@@ -70,6 +65,21 @@ export default function PostFrame({
 
         setComment("");
         toast.success("댓글이 등록되었습니다.");
+        await loadComments();
+    };
+
+    const handleDeleteComment = async (commentId: number) => {
+        const confirmed = window.confirm("댓글을 삭제하시겠습니까?");
+        if (!confirmed) return;
+
+        const { error } = await apiDelete<void>(`/comments/${commentId}`);
+        if (error) {
+            console.error(error);
+            toast.error("댓글 삭제에 실패했습니다.");
+            return;
+        }
+
+        toast.success("댓글이 삭제되었습니다.");
         await loadComments();
     };
 
@@ -175,13 +185,30 @@ export default function PostFrame({
                                 <div className="flex items-start gap-3">
                                     {/* 아바타 */}
                                     <div className="mt-0.5 h-9 w-9 shrink-0 rounded-full bg-gray-200" />
+
+                                    {/* 본문 */}
                                     <div className="flex-1">
-                                        <div className="flex items-center gap-3">
-                                            <span className="font-medium text-sm">{c.authorNickname}</span>
-                                            <span className="text-xs text-gray-500">
-                                                {formatBoardDateTime(c.createdAt)}
-                                            </span>
+                                        {/* 상단: 작성자 / 날짜 / 삭제 */}
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-3">
+                                                <span className="font-medium text-sm">{c.authorNickname}</span>
+                                                <span className="text-xs text-gray-500">
+                                                  {formatBoardDateTime(c.createdAt)}
+                                                </span>
+                                            </div>
+
+                                            {c.editable && (
+                                                <button
+                                                    onClick={() => handleDeleteComment(c.id)}
+                                                    className="p-1 text-gray-400 hover:text-red-600 transition cursor-pointer"
+                                                    title="댓글 삭제"
+                                                >
+                                                    <Trash2 className="h-4 w-4" />
+                                                </button>
+                                            )}
                                         </div>
+
+                                        {/* 내용 */}
                                         <p className="mt-1 whitespace-pre-wrap text-sm break-words">
                                             {c.body}
                                         </p>
