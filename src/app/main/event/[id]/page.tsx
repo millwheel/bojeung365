@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import {useEffect, useState} from "react";
 import { EventPostResponse } from "@/type/postResponse";
 import { apiGet } from "@/lib/api";
-import PostFrame from "@/component/postFrame";
+import PostFrame from "@/component/post/postFrame";
 import TipTapViewer from "@/component/tiptap/tiptapViewer";
 import EventBoard from "@/board/eventBoard";
 

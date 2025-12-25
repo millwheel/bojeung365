@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { apiGet } from "@/lib/api";
-import PostFrame from "@/component/postFrame";
+import PostFrame from "@/component/post/postFrame";
 import { ReviewPostResponse } from "@/type/postResponse";
 import ReviewBoard from "@/board/reviewBoard";
 import {formatContentDate} from "@/util/dataFormatter";
