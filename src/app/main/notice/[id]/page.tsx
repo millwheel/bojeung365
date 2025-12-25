@@ -29,9 +29,9 @@ export default function NoticePost() {
             } else {
                 setData(data ?? null);
             }
-            setLoading(false);
         })();
 
+        setLoading(false);
     }, [id]);
 
     return (
