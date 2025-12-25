@@ -1,8 +1,8 @@
-import { ReactNode, useMemo, useState } from "react";
+import {ReactNode, useMemo, useState} from "react";
 import { formatBoardDateTime } from "@/util/dataFormatter";
-import { CommentResponse } from "@/type/postResponse";
+import {CommentResponse, NoticePostResponse} from "@/type/postResponse";
 import {Eye, Clock, MessageSquare, Pencil} from "lucide-react";
-import {apiDelete, apiPost} from "@/lib/api";
+import {apiDelete, apiGet, apiPost} from "@/lib/api";
 import {useRouter} from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
@@ -34,6 +34,20 @@ export default function PostFrame({
     const [comment, setComment] = useState("");
     const [commentPending, setCommentPending] = useState(false);
     const router = useRouter();
+    const [commentList, setCommentList] = useState<CommentResponse[]>(comments ?? []);
+
+    const loadComments = async () => {
+
+        const { data, error } = await apiGet<CommentResponse[]>(`/comments?postId=${id}`);
+
+        if (!data || error) {
+            toast.error("댓글 목록 조회에 실패했습니다.");
+            console.error(error);
+            return;
+        }
+
+        setCommentList(data ?? []);
+    };
 
     const handleCreateComment = async () => {
         const body = comment.trim();
@@ -56,8 +70,7 @@ export default function PostFrame({
 
         setComment("");
         toast.success("댓글이 등록되었습니다.");
-
-        router.refresh();
+        await loadComments();
     };
 
     const handleDelete = async () => {
@@ -120,12 +133,12 @@ export default function PostFrame({
                             <span>{viewCount}</span>
                         </span>
 
-                        {!!comments?.length && (
+                        {!!commentList?.length && (
                             <>
                                 <span className="hidden md:inline select-none">|</span>
                                 <span className="inline-flex items-center gap-1">
                                     <MessageSquare className="h-4 w-4" />
-                                    <span>{comments.length}</span>
+                                    <span>{commentList.length}</span>
                                 </span>
                             </>
                         )}
@@ -149,15 +162,15 @@ export default function PostFrame({
             {/* 댓글 영역 */}
             <section className="px-5 pb-6">
                 <h2 className="text-lg font-semibold mb-3">
-                    {`댓글${comments?.length ? ` (${comments.length})` : ""}`}
+                    {`댓글${commentList?.length ? ` (${commentList.length})` : ""}`}
                 </h2>
 
                 {/* 댓글 리스트 */}
-                {!comments || comments.length === 0 ? (
+                {!commentList || commentList.length === 0 ? (
                     <p>아직 댓글이 없습니다.</p>
                 ) : (
                     <ul className="rounded-md overflow-hidden">
-                        {comments.map((c) => (
+                        {commentList.map((c) => (
                             <li key={c.id} className="p-4">
                                 <div className="flex items-start gap-3">
                                     {/* 아바타 */}
@@ -185,7 +198,7 @@ export default function PostFrame({
                         <textarea
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
-                            placeholder="내용을 입력하세요…"
+                            placeholder="댓글을 입력하세요"
                             className="min-h-[96px] resize-none flex-1 p-3 focus:outline-none"
                         />
                         <button
