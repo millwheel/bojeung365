@@ -11,6 +11,7 @@ export type CommentResponse = {
     authorNickname: string;
     body: string;
     createdAt: string;
+    editable: boolean;
 };
 
 export type NoticePostResponse = {

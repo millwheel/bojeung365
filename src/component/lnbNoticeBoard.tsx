@@ -42,7 +42,7 @@ export default function LnbNoticeBoard() {
                     posts.map((post) => (
                         <li key={post.id} className="px-2">
                             <Link
-                                href={`/posts/notice/${post.id}`}
+                                href={`/main/notice/${post.id}`}
                                 className="flex items-center justify-between gap-3 py-3 group"
                             >
                                 <div className="flex items-center gap-2 min-w-0">
