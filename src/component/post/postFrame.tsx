@@ -2,8 +2,10 @@ import { ReactNode, useMemo, useState } from "react";
 import { formatBoardDateTime } from "@/util/dataFormatter";
 import { CommentResponse } from "@/type/postResponse";
 import {Eye, Clock, MessageSquare, Pencil} from "lucide-react";
-import {apiDelete} from "@/lib/api";
+import {apiDelete, apiPost} from "@/lib/api";
 import {useRouter} from "next/navigation";
+import Link from "next/link";
+import toast from "react-hot-toast";
 
 export type PostFrameProps = {
     id: number;
@@ -30,13 +32,32 @@ export default function PostFrame({
                                   }: PostFrameProps) {
     const createdAtText = useMemo(() => (createdAt ? formatBoardDateTime(createdAt) : ""), [createdAt]);
     const [comment, setComment] = useState("");
+    const [commentPending, setCommentPending] = useState(false);
     const router = useRouter();
 
-    const handleSubmit = async () => {
-        if (!comment.trim()) return;
+    const handleCreateComment = async () => {
+        const body = comment.trim();
+        if (!body) {
+            toast.error("댓글 내용을 입력하세요.");
+            return;
+        }
 
-        // TODO comment 추가 api 연결
+        setCommentPending(true);
 
+        const { error } = await apiPost<void>(`/comments?postId=${id}`, { body });
+
+        setCommentPending(false);
+
+        if (error) {
+            console.error(error);
+            toast.error(`[댓글 등록 실패] ${error.message}`);
+            return;
+        }
+
+        setComment("");
+        toast.success("댓글이 등록되었습니다.");
+
+        router.refresh();
     };
 
     const handleDelete = async () => {
@@ -60,11 +81,12 @@ export default function PostFrame({
                     </h1>
                     {editable && (
                         <div className="flex gap-2">
-                            <button
+                            <Link
+                                href={`/posts/${category}/${id}/edit`}
                                 className="px-3 py-1 text-sm font-semibold text-white bg-blue-600 rounded hover:bg-blue-500 transition-colors cursor-pointer"
                             >
                                 수정
-                            </button>
+                            </Link>
                             <button
                                 onClick={() => handleDelete()}
                                 className="px-3 py-1 text-sm font-semibold text-white bg-red-600 rounded hover:bg-red-500 transition-colors cursor-pointer"
@@ -134,7 +156,7 @@ export default function PostFrame({
                 {!comments || comments.length === 0 ? (
                     <p>아직 댓글이 없습니다.</p>
                 ) : (
-                    <ul className="rounded-md divide-y overflow-hidden">
+                    <ul className="rounded-md overflow-hidden">
                         {comments.map((c) => (
                             <li key={c.id} className="p-4">
                                 <div className="flex items-start gap-3">
@@ -168,10 +190,11 @@ export default function PostFrame({
                         />
                         <button
                             type="button"
-                            onClick={handleSubmit}
+                            onClick={handleCreateComment}
+                            disabled={commentPending}
                             className="w-20 shrink-0 bg-gray-300 text-sm font-semibold cursor-pointer hover:bg-gray-400 transition"
                         >
-                            등록
+                            {commentPending ? "..." : "등록"}
                         </button>
                     </div>
                 </div>
